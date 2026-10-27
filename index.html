@@ -1,324 +1,579 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="SC-100">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-<title>SC-100 Studieplan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Woonkamer-indeling Jet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root{--blue:#185FA5;--blue-l:#E6F1FB;--blue-m:#378ADD;--blue-d:#0C447C;--green:#3B6D11;--green-l:#EAF3DE;--green-d:#27500A;--green-m:#639922;--amber:#BA7517;--amber-l:#FAEEDA;--amber-d:#633806;--purple:#534AB7;--purple-l:#EEEDFE;--purple-d:#3C3489;--teal:#0F6E56;--teal-l:#E1F5EE;--teal-d:#085041;--coral:#993C1D;--coral-l:#FAECE7;--coral-d:#712B13;--gray-l:#F1EFE8;--gray-m:#D3D1C7;--gray:#5F5E5A;--text:#111;--muted:#5F5E5A;--faint:#888780;--border:rgba(0,0,0,0.08);--surface:#fff;--bg:#F5F4F1;--r:16px;--rs:12px;--sat:env(safe-area-inset-top,62px);--sab:env(safe-area-inset-bottom,34px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);--hdr-h:calc(var(--sat) + 68px);}
-@media(prefers-color-scheme:dark){:root{--text:#f0f0f0;--muted:#aaa;--faint:#666;--border:rgba(255,255,255,0.09);--surface:#1c1c1e;--bg:#111;--gray-l:#2c2c2e;--gray-m:#3a3a3c;--gray:#8e8e93;--blue-l:#0d2a47;--green-l:#0d2409;--amber-l:#2d1d04;--purple-l:#1a1740;--teal-l:#0a2219;--coral-l:#2a110a;}}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;padding-top:var(--hdr-h);padding-bottom:calc(100px + var(--sab));padding-left:var(--sal);padding-right:var(--sar);}
-.hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid var(--border);padding-top:var(--sat);}
-@media(prefers-color-scheme:dark){.hdr{background:rgba(28,28,30,0.92);}}
-.hdr-inner{padding:10px 16px 10px;max-width:600px;margin:0 auto;}
-.hdr-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
-.hdr-title{font-size:17px;font-weight:700;letter-spacing:-0.4px;}
-.hdr-pct{font-size:24px;font-weight:700;color:var(--blue-m);font-variant-numeric:tabular-nums;}
-.pbar-wrap{height:6px;background:var(--gray-l);border-radius:3px;overflow:hidden;margin-bottom:9px;}
-.pbar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue-m),var(--green-m));transition:width 0.5s cubic-bezier(.4,0,.2,1);width:0%;}
-.dots{display:flex;gap:5px;flex-wrap:wrap;}
-.dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border:1.5px solid transparent;cursor:pointer;transition:transform 0.1s;-webkit-user-select:none;user-select:none;}
-.dot:active{transform:scale(0.85);}
-.page{max-width:600px;margin:0 auto;padding:0 12px;}
-.slabel{font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--faint);margin:18px 4px 8px;}
-.lp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:2px;}
-.lp-card{border-radius:var(--rs);padding:10px 12px;border-left:3px solid;}
-.lp-card-title{font-size:12px;font-weight:700;line-height:1.3;margin-bottom:2px;}
-.lp-card-sub{font-size:10px;opacity:0.7;}
-.wk{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:border-color 0.25s;}
-.wk.done{border-color:rgba(99,153,34,0.5);}
-.wk-hdr{display:flex;align-items:center;gap:12px;padding:14px;min-height:70px;cursor:pointer;-webkit-user-select:none;user-select:none;position:relative;}
-.wk-hdr::after{content:'';position:absolute;inset:0;background:var(--gray-l);opacity:0;transition:opacity 0.1s;}
-.wk-hdr:active::after{opacity:1;}
-.wk-badge{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;position:relative;z-index:1;}
-.wk-badge .ck{position:absolute;bottom:-2px;right:-2px;width:17px;height:17px;border-radius:50%;background:var(--green-m);display:none;align-items:center;justify-content:center;border:2px solid var(--surface);}
-.wk-badge .ck::after{content:'';width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);margin-top:-1px;display:block;}
-.wk.done .wk-badge .ck{display:flex;}
-.wk-info{flex:1;min-width:0;z-index:1;}
-.wk-title{font-size:14px;font-weight:600;line-height:1.35;margin-bottom:4px;}
-.wk-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.wk-hours{font-size:11px;color:var(--muted);}
-.wk-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
-.wk-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;z-index:1;}
-.wk-count{font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;}
-.wk-bar{width:44px;height:4px;background:var(--gray-l);border-radius:2px;overflow:hidden;}
-.wk-bar-fill{height:100%;border-radius:2px;transition:width 0.3s;}
-.wk-chev{font-size:11px;color:var(--faint);transition:transform 0.25s;line-height:1;}
-.wk-chev.open{transform:rotate(180deg);}
-.wk-body{display:none;border-top:0.5px solid var(--border);}
-.wk-body.open{display:block;}
-.tab-bar{display:flex;overflow-x:auto;scrollbar-width:none;background:var(--bg);border-bottom:0.5px solid var(--border);-webkit-overflow-scrolling:touch;}
-.tab-bar::-webkit-scrollbar{display:none;}
-.tab-btn{flex:1;min-width:80px;padding:11px 6px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;-webkit-user-select:none;user-select:none;transition:color 0.15s;}
-.tab-btn.on{color:var(--blue-m);border-bottom-color:var(--blue-m);background:var(--surface);}
-.tab-btn:active{opacity:0.6;}
-.tab-panel{padding:14px;}
-.mflag{display:inline-flex;align-items:center;gap:5px;background:var(--coral-l);color:var(--coral-d);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:12px;}
-.nb{display:inline-flex;background:var(--green-l);color:var(--green-d);border-radius:8px;padding:1px 5px;font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle;font-style:normal;white-space:nowrap;}
-.cl-sec{margin-bottom:16px;}
-.cl-sec:last-child{margin-bottom:0;}
-.cl-sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
-.cl-sec-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.cl-sec-prog{font-size:11px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums;}
-.cl-row{display:flex;align-items:flex-start;gap:13px;padding:13px 14px;border-bottom:0.5px solid var(--border);cursor:pointer;min-height:52px;margin:0 -14px;transition:background 0.1s;}
-.cl-row:last-child{border-bottom:none;}
-.cl-row:active{background:var(--gray-l);}
-.cl-box{width:26px;height:26px;border-radius:8px;border:2px solid var(--gray-m);background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
-.cl-box.on{background:var(--green-m);border-color:var(--green-m);}
-.cl-box.on::after{content:'';width:13px;height:9px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg);margin-top:-2px;display:block;}
-.cl-txt{font-size:15px;line-height:1.45;flex:1;padding-top:1px;}
-.cl-txt.x{color:var(--faint);text-decoration:line-through;}
-.mod-card{background:var(--bg);border-radius:var(--rs);padding:13px;margin-bottom:10px;}
-.mod-card:last-child{margin-bottom:0;}
-.mod-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;}
-.mod-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;flex-shrink:0;margin-top:2px;}
-.mod-name{font-size:14px;font-weight:600;line-height:1.35;flex:1;}
-.mod-lp{font-size:11px;font-weight:600;margin-bottom:5px;}
-.mod-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:7px;}
-.mod-focus{font-size:12px;font-style:italic;padding:7px 10px;border-radius:8px;line-height:1.5;}
-.mod-btn{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;text-decoration:none;padding:9px 14px;border-radius:10px;margin-top:10px;-webkit-user-select:none;user-select:none;}
-.mod-btn:active{opacity:0.7;}
-.skip-note{background:var(--gray-l);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--gray);font-style:italic;margin-bottom:10px;}
-.info-card{border-radius:var(--rs);padding:11px 13px;margin-bottom:9px;}
-.info-card:last-child{margin-bottom:0;}
-.info-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;opacity:0.65;margin-bottom:5px;}
-.info-txt{font-size:13px;line-height:1.55;}
-.bottom{text-align:center;margin-top:28px;padding-bottom:4px;}
-.reset-btn{background:none;border:1px solid var(--gray-m);border-radius:22px;padding:10px 24px;font-size:14px;color:var(--muted);cursor:pointer;-webkit-user-select:none;user-select:none;}
-.reset-btn:active{background:var(--gray-l);}
-.install-tip{margin-top:16px;font-size:12px;color:var(--faint);line-height:1.6;padding:0 8px;}
-footer{font-size:11px;color:var(--faint);text-align:center;margin-top:12px;}
-#pw{position:fixed;bottom:calc(16px + var(--sab));right:16px;z-index:9999;width:264px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:0 4px 24px rgba(0,0,0,0.12);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;color:var(--text);overflow:hidden;transition:border-color 0.3s,box-shadow 0.3s,transform 0.25s;-webkit-user-select:none;user-select:none;}
-#pw.pa{border-color:var(--blue-m);box-shadow:0 4px 24px rgba(0,0,0,0.12),0 0 0 2px var(--blue-l);}
-#pw.pb{border-color:var(--green-m);box-shadow:0 4px 24px rgba(0,0,0,0.12),0 0 0 2px var(--green-l);}
-#pw.mini{width:56px;height:56px;border-radius:50%;cursor:pointer;}
-#pw.mini .pw-body{display:none;}
-#pw.mini .pw-pill{display:flex;}
-.pw-pill{display:none;width:56px;height:56px;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;}
-.pw-pill-time{font-size:13px;font-weight:700;color:var(--blue-m);line-height:1;font-variant-numeric:tabular-nums;}
-.pw-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-m);margin-top:3px;animation:pw-pulse 2s infinite;}
-@keyframes pw-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.6);}}
-.pw-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 9px;border-bottom:0.5px solid var(--border);background:var(--bg);cursor:move;}
-.pw-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.5px;transition:all 0.25s;}
-.pw-badge.f{background:var(--blue-l);color:var(--blue-d);}
-.pw-badge.b{background:var(--green-l);color:var(--green-d);}
-.pw-hbtn{width:24px;height:24px;background:none;border:0.5px solid var(--border);border-radius:6px;color:var(--faint);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.15s;padding:0;margin-left:4px;}
-.pw-hbtn:active{background:var(--gray-l);}
-.pw-ring-wrap{position:relative;width:116px;height:116px;margin:14px auto 8px;}
-.pw-ring{transform:rotate(-90deg);width:116px;height:116px;}
-.pw-rbg{fill:none;stroke:var(--gray-l);stroke-width:5;}
-.pw-rfill{fill:none;stroke:var(--blue-m);stroke-width:5;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:327;transition:stroke-dashoffset 1s linear,stroke 0.4s;}
-.pw-rfill.bm{stroke:var(--green-m);}
-.pw-time-ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
-.pw-digits{font-size:32px;font-weight:700;color:var(--text);letter-spacing:1px;line-height:1;font-variant-numeric:tabular-nums;}
-.pw-slbl{font-size:9px;color:var(--faint);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
-.pw-sdots{display:flex;justify-content:center;gap:5px;margin-bottom:10px;}
-.pw-sdot{width:7px;height:7px;border-radius:2px;background:var(--gray-l);border:1px solid var(--gray-m);transition:all 0.25s;}
-.pw-sdot.on{background:var(--blue-m);border-color:var(--blue-m);}
-.pw-ctrl{display:flex;gap:6px;padding:0 12px 12px;}
-.pw-btn{flex:1;padding:9px 4px;border:0.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;}
-.pw-btn:active{transform:scale(0.95);}
-.pw-bs{border-color:var(--blue-m);color:var(--blue);background:var(--blue-l);}
-.pw-bs:active{opacity:0.8;}
-.pw-bp{border-color:var(--amber);color:var(--amber);background:var(--amber-l);}
-.pw-bp:active{opacity:0.8;}
-.pw-br{max-width:40px;flex:none;font-size:16px;color:var(--faint);}
-.pw-br:active{color:var(--coral);border-color:var(--coral-l);}
-.pw-xp-sec{padding:0 12px 10px;border-top:0.5px solid var(--border);padding-top:9px;}
-.pw-xp-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.pw-lv{font-size:14px;font-weight:700;color:var(--amber);}
-.pw-xp-txt{font-size:10px;color:var(--faint);}
-.pw-xp-track{height:7px;background:var(--gray-l);border-radius:4px;overflow:hidden;}
-.pw-xp-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:4px;transition:width 0.6s cubic-bezier(.34,1.56,.64,1);}
-.pw-meta{display:flex;justify-content:space-around;padding:6px 12px 10px;border-top:0.5px solid var(--border);}
-.pw-mi{text-align:center;}
-.pw-mv{font-size:15px;font-weight:700;color:var(--text);line-height:1;font-variant-numeric:tabular-nums;}
-.pw-ml{font-size:9px;color:var(--faint);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-.pw-fire{display:inline;}
-.pw-set{display:none;padding:10px 12px;border-top:0.5px solid var(--border);background:var(--bg);}
-.pw-set.open{display:block;}
-.pw-sr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--muted);}
-.pw-si{width:58px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--blue);font-size:15px;font-weight:700;text-align:center;padding:4px 6px;outline:none;-moz-appearance:textfield;}
-.pw-si::-webkit-outer-spin-button,.pw-si::-webkit-inner-spin-button{-webkit-appearance:none;}
-.pw-si:focus{border-color:var(--blue-m);}
-.pw-sa{width:100%;padding:8px;background:var(--blue-l);border:1px solid var(--blue-m);border-radius:8px;color:var(--blue);font-size:13px;font-weight:600;cursor:pointer;margin-top:6px;transition:background 0.15s;}
-.pw-sa:active{background:var(--blue-m);color:#fff;}
-.pw-toast{position:fixed;z-index:10000;font-size:22px;font-weight:700;color:var(--blue);pointer-events:none;animation:pw-rise 1.8s ease-out forwards;}
-@keyframes pw-rise{0%{opacity:0;transform:translateY(0) scale(0.7);}20%{opacity:1;transform:translateY(-16px) scale(1.05);}60%{opacity:1;transform:translateY(-40px) scale(1);}100%{opacity:0;transform:translateY(-72px) scale(0.9);}}
-.pw-lvup{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;pointer-events:none;animation:pw-luf 2.5s ease-out forwards;}
-@keyframes pw-luf{0%{opacity:0;}10%{opacity:1;}75%{opacity:1;}100%{opacity:0;}}
-.pw-lvup-box{background:var(--surface);border:2px solid var(--amber);border-radius:var(--r);padding:24px 40px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.2);animation:pw-lvbounce 2.5s ease-out forwards;}
-@keyframes pw-lvbounce{0%{transform:scale(0.3);}20%{transform:scale(1.1);}35%{transform:scale(0.96);}50%{transform:scale(1.02);}80%{transform:scale(1);}100%{transform:scale(0.88);}}
-.pw-lvup-t{font-size:36px;font-weight:800;color:var(--amber);letter-spacing:2px;line-height:1;margin-bottom:6px;}
-.pw-lvup-s{font-size:18px;font-weight:600;color:var(--blue);}
-.pom-dash{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px;margin:4px 0 12px;}
-.pd-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:12px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
-.pd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
-.pd-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rs);padding:11px;text-align:center;}
-.pd-icon{font-size:16px;margin-bottom:3px;}
-.pd-val{font-size:22px;font-weight:700;color:var(--blue-m);line-height:1;font-variant-numeric:tabular-nums;}
-.pd-lbl{font-size:9px;color:var(--faint);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
-.pd-lv-wrap{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rs);padding:11px;margin-bottom:12px;}
-.pd-lv-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
-.pd-lv-name{font-size:14px;font-weight:700;color:var(--amber);}
-.pd-lv-xp{font-size:11px;color:var(--faint);}
-.pd-xp-track{height:10px;background:var(--gray-l);border-radius:5px;overflow:hidden;}
-.pd-xp-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:5px;transition:width 0.8s cubic-bezier(.34,1.56,.64,1);}
-.pd-chart-wrap{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rs);padding:11px;}
-.pd-chart-title{font-size:10px;font-weight:600;color:var(--faint);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
-.pd-bars{display:flex;align-items:flex-end;gap:5px;height:60px;}
-.pd-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;}
-.pd-bar{width:100%;border-radius:3px 3px 0 0;min-height:3px;background:var(--blue-l);border-top:2px solid var(--blue-m);}
-.pd-bar.td{background:var(--amber-l);border-top-color:var(--amber);}
-.pd-day{font-size:9px;color:var(--faint);}
-.pd-cv{font-size:10px;font-weight:600;color:var(--blue-m);}
-.pd-cv.td{color:var(--amber);}
+/* Layout: één kolom als bouwtekening-dossier; plattegrond is de held, daarna 3D, opties, analyse, controle */
+:root{
+  --paper:#f3f4f1; --sheet:#ffffff; --ink:#1f2a2e; --muted:#5d686c; --line:#c9cfcc;
+  --wall:#2b3438; --sofa:#c9a978; --sofa-ink:#7a5a2b; --route:#2f6fb0; --table:#4a3527; --cat:#3e8a5c; --store:#5a3f2e; --warn:#b4532a; --ok:#2f7a4c; --ctx:#e6e8e4;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif; --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#151a1c; --sheet:#1d2427; --ink:#e4e8e6; --muted:#9aa5a8; --line:#3a4448;
+  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#151a1c; --sheet:#1d2427; --ink:#e4e8e6; --muted:#9aa5a8; --line:#3a4448;
+  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:grid;gap:44px}
+h1,h2,h3{font-family:var(--f-display);font-stretch:85%;text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.65rem;font-weight:700}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+section{display:grid;gap:16px}
+.lede{font-size:1.1rem;color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.kpi{background:var(--sheet);padding:12px 14px;display:grid;gap:2px}
+.kpi b{font-family:var(--f-mono);font-size:1.35rem;font-weight:500;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.82rem;color:var(--muted)}
+.sheet{background:var(--sheet);border:1px solid var(--line);padding:14px}
+.scroll{overflow-x:auto}
+.callout{border-left:4px solid var(--warn);background:var(--sheet);padding:16px 18px;display:grid;gap:12px}
+.callout h2{font-size:1.3rem}
+.orient{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start}
+.orient > div{min-width:0}
+svg text{font-family:var(--f-body)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;border:1px solid var(--line)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:500 .9rem var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);padding:7px 12px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--route);outline-offset:2px}
+#three{width:100%;aspect-ratio:16/10;max-width:100%;background:var(--ctx);display:block;touch-action:none;cursor:grab}
+.note{font-size:.88rem;color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.opt{background:var(--sheet);border:1px solid var(--line);padding:14px;display:grid;gap:10px;align-content:start;min-width:0}
+.opt.best{outline:2px solid var(--ok);outline-offset:-2px}
+.tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;justify-self:start;border:1px solid currentColor}
+.tag.ok{color:var(--ok)} .tag.no{color:var(--warn)} .tag.meh{color:var(--muted)}
+.opt ul{margin:0;padding-left:18px;font-size:.9rem;display:grid;gap:4px}
+table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--sheet)}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.st{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.04em;white-space:nowrap}
+.st.zeker{color:var(--ok)} .st.schat{color:var(--warn)} .st.onb{color:var(--muted)}
+.chk{display:grid;gap:10px}
+.chk div{display:grid;grid-template-columns:26px 1fr;gap:8px;background:var(--sheet);border:1px solid var(--line);padding:10px 12px}
+.chk div > span:first-child{font-family:var(--f-mono);font-weight:500}
+.chk .y{color:var(--ok)} .chk .w{color:var(--warn)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.two > div{min-width:0;display:grid;gap:10px;align-content:start}
+ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<header class="hdr">
-  <div class="hdr-inner">
-    <div class="hdr-row1"><span class="hdr-title">SC-100 Studieplan</span><span class="hdr-pct" id="pct">0%</span></div>
-    <div class="pbar-wrap"><div class="pbar-fill" id="pbar"></div></div>
-    <div class="dots" id="dots"></div>
+
+
+<div class="wrap">
+
+<header style="display:grid;gap:14px">
+  <div class="eyebrow">Verhuizing · woonkamer · ontwerp v2 · schaal 1 cm = 1 eenheid</div>
+  <h1>Nieuwe indeling woonkamer met de Haco Jet</h1>
+  <p class="lede">De bank staat met de rug tegen de linkerwand in de hoek, met de divan bij het raam. Daarachter kan de kat niet bij de bank. Op dezelfde wand staan de krabpaal, direct naast de armleuning, en een donkerbruin Bestå-dressoir bij de entree. Op de korte buitenmuur hangt een zwevend Bestå-tv-meubel in dezelfde kleur. De Budrio-salontafels staan voor de bank.</p>
+  <div class="kpis">
+    <div class="kpi"><b>325 × 174</b><span>Haco Jet, rug tegen de wand</span></div>
+    <div class="kpi"><b>30 cm</b><span>divan tot de raamwand</span></div>
+    <div class="kpi"><b>120 × 42</b><span>Bestå-dressoir, linkerwand</span></div>
+    <div class="kpi"><b>180 × 42</b><span>Bestå-tv-meubel, zwevend</span></div>
+    <div class="kpi"><b>≥ 138 cm</b><span>hoofdlooproute (bank–kookeiland)</span></div>
+    <div class="kpi"><b>≈ 4,0 m</b><span>kijkafstand, dus 65 inch</span></div>
   </div>
 </header>
-<div id="pw">
-  <div class="pw-pill" id="pw-pill" onclick="pwToggleMini()"><div class="pw-pill-time" id="pw-pill-time">25:00</div><div class="pw-pill-dot"></div></div>
-  <div class="pw-body">
-    <div class="pw-hdr" id="pw-drag"><span class="pw-badge f" id="pw-badge">&#9876; FOCUS</span><div style="display:flex"><button class="pw-hbtn" id="pw-notif" title="Notificaties">&#128276;</button><button class="pw-hbtn" id="pw-setbtn" title="Instellingen">&#9881;</button><button class="pw-hbtn" id="pw-minbtn" title="Minimaliseer">_</button></div></div>
-    <div class="pw-set" id="pw-set"><div class="pw-sr"><span>Focus (min)</span><input class="pw-si" id="pw-sf" type="number" min="1" max="90" value="25"></div><div class="pw-sr"><span>Pauze (min)</span><input class="pw-si" id="pw-sb" type="number" min="1" max="30" value="5"></div><button class="pw-sa" id="pw-sapply">TOEPASSEN</button></div>
-    <div class="pw-ring-wrap"><svg class="pw-ring" viewBox="0 0 116 116"><circle class="pw-rbg" cx="58" cy="58" r="52"/><circle class="pw-rfill" id="pw-rfill" cx="58" cy="58" r="52"/></svg><div class="pw-time-ov"><div class="pw-digits" id="pw-digits">25:00</div><div class="pw-slbl" id="pw-slbl">SESSIE 0</div></div></div>
-    <div class="pw-sdots"><div class="pw-sdot" id="pw-sd0"></div><div class="pw-sdot" id="pw-sd1"></div><div class="pw-sdot" id="pw-sd2"></div><div class="pw-sdot" id="pw-sd3"></div></div>
-    <div class="pw-ctrl"><button class="pw-btn pw-bs" id="pw-start">&#9654; START</button><button class="pw-btn pw-bp" id="pw-pause" style="display:none">&#9208; PAUZE</button><button class="pw-btn pw-br" id="pw-reset" title="Reset">&#8635;</button></div>
-    <div class="pw-xp-sec"><div class="pw-xp-hdr"><span class="pw-lv" id="pw-lv">LV 0</span><span class="pw-xp-txt" id="pw-xptxt">0 / 100 XP</span></div><div class="pw-xp-track"><div class="pw-xp-fill" id="pw-xpbar" style="width:0%"></div></div></div>
-    <div class="pw-meta"><div class="pw-mi"><div class="pw-mv"><span class="pw-fire">&#128293;</span><span id="pw-streak">0</span></div><div class="pw-ml">STREAK</div></div><div class="pw-mi"><div class="pw-mv" id="pw-tot">0</div><div class="pw-ml">SESSIES</div></div><div class="pw-mi"><div class="pw-mv" id="pw-hrs">0m</div><div class="pw-ml">FOCUS</div></div></div>
-  </div>
-</div>
-<div class="page">
-  <div class="slabel">De 4 learning paths</div>
-  <div class="lp-grid">
-    <div class="lp-card" style="background:#E6F1FB;border-color:#185FA5"><div class="lp-card-title" style="color:#0C447C">LP1 &mdash; Best Practices</div><div class="lp-card-sub" style="color:#185FA5">4 modules &middot; 20&ndash;25%</div></div>
-    <div class="lp-card" style="background:#EEEDFE;border-color:#534AB7"><div class="lp-card-title" style="color:#3C3489">LP2 &mdash; SecOps &amp; Identity</div><div class="lp-card-sub" style="color:#534AB7">6 modules &middot; 25&ndash;30%</div></div>
-    <div class="lp-card" style="background:#FAEEDA;border-color:#BA7517"><div class="lp-card-title" style="color:#633806">LP3 &mdash; Infrastructure</div><div class="lp-card-sub" style="color:#BA7517">5 modules &middot; 25&ndash;30%</div></div>
-    <div class="lp-card" style="background:#FCEBEB;border-color:#A32D2D"><div class="lp-card-title" style="color:#791F1F">LP4 &mdash; Apps &amp; Data</div><div class="lp-card-sub" style="color:#A32D2D">4 modules &middot; 20&ndash;25%</div></div>
-  </div>
-  <div class="slabel">Pomodoro &mdash; voortgang</div>
-  <div class="pom-dash">
-    <div class="pd-title">&#9201; Studiestatistieken</div>
-    <div class="pd-grid">
-      <div class="pd-card"><div class="pd-icon">&#9876;&#65039;</div><div class="pd-val" id="pd-ses">0</div><div class="pd-lbl">Sessies</div></div>
-      <div class="pd-card"><div class="pd-icon">&#9201;&#65039;</div><div class="pd-val" id="pd-hrs">0m</div><div class="pd-lbl">Focus tijd</div></div>
-      <div class="pd-card"><div class="pd-icon">&#128293;</div><div class="pd-val" id="pd-str">0</div><div class="pd-lbl">Streak</div></div>
-      <div class="pd-card"><div class="pd-icon">&#11088;</div><div class="pd-val" id="pd-xp">0</div><div class="pd-lbl">Totaal XP</div></div>
+
+<section class="callout" aria-labelledby="h-orient" style="border-left-color:var(--ok)">
+  <h2 id="h-orient">De divan rechts past precies bij deze opstelling</h2>
+  <p>Op de productfoto ‘Rechts’ en in de configuratietekening van Haco zit de divan <strong>rechts als je vóór de bank staat</strong>. Zit je erop, dan zit hij aan je <strong>linkerhand</strong>. Met de rug tegen de linkerwand kijk je naar de tv-muur, en dan zit je linkerhand aan de raamkant. De divan komt dus bij het raam zonder dat er iets gespiegeld hoeft te worden.</p>
+  <div class="orient">
+    <div class="sheet"><svg id="orientA" viewBox="0 0 360 230" width="100%" role="img" aria-label="Bovenaanzicht van de bank met de divan rechts, gezien vanaf de voorkant"></svg></div>
+    <div style="display:grid;gap:8px">
+      <p><strong>In de kamer:</strong> rug tegen de linkerwand, de armleuning richting de entree en het open einde van de divan richting het raam.</p>
+      <p class="note">Check nog even op jullie orderbevestiging of daar ‘divan rechts’ staat met hetzelfde pictogram als op de site (artikel C0035131_2).</p>
     </div>
-    <div class="pd-lv-wrap"><div class="pd-lv-row"><span class="pd-lv-name" id="pd-lvname">LV 0 &middot; Novice</span><span class="pd-lv-xp" id="pd-lvxp">0 / 100 XP</span></div><div class="pd-xp-track"><div class="pd-xp-fill" id="pd-xpfill" style="width:0%"></div></div></div>
-    <div class="pd-chart-wrap"><div class="pd-chart-title">Laatste 7 dagen</div><div class="pd-bars" id="pd-bars"></div></div>
   </div>
-  <div class="slabel">12 weken &mdash; tik om te openen</div>
-  <div id="weeks"></div>
-  <div class="bottom"><button class="reset-btn" onclick="confirmReset()">Studieplan voortgang wissen</button><p class="install-tip" id="installTip">Sla op als app: Safari &rarr; Deel &#8679; &rarr; Zet op beginscherm</p></div>
-  <footer>Bijgewerkt naar SC-100 examenwijzigingen 27 april 2026 &middot; Offline beschikbaar</footer>
+</section>
+
+<section aria-labelledby="h-plan">
+  <div class="eyebrow">B · Plattegrond op schaal</div>
+  <h2 id="h-plan">Plattegrond nieuwe indeling</h2>
+  <div class="legend">
+    <span><i style="background:var(--sofa)"></i>Haco Jet</span>
+    <span><i style="background:var(--store)"></i>Bestå, donkerbruin</span>
+    <span><i style="background:var(--cat)"></i>Krabpaal (aanname 50 × 50)</span>
+    <span><i style="background:var(--table)"></i>Budrio-salontafels</span>
+    <span><i style="background:var(--route);height:3px;border:0;vertical-align:4px"></i>Looproute</span>
+    <span><i style="background:var(--ctx)"></i>Eethoek/keuken (context)</span>
+  </div>
+  <div class="sheet scroll"><svg id="plan" viewBox="-110 -120 1080 1010" style="min-width:680px;width:100%" role="img" aria-label="Maatvaste plattegrond van de woonkamer met bank, krabpaal, dressoir, salontafels, tv-meubel en looproutes"></svg></div>
+  <p class="note">Zwarte maten zijn opgegeven (Binnenmaat-tekening, Haco, IKEA en Profijt Meubel). Maten met ≈ zijn geschat uit de Zibber-plattegrond of foto’s, ongeveer ±10 cm. De Budrio-tafels zijn organisch van vorm. Ik heb ze getekend binnen hun opgegeven maten (86 × 82 en 71 × 67), dus de contour is globaal.</p>
+</section>
+
+<section aria-labelledby="h-3d">
+  <div class="eyebrow">C · Visuele impressie</div>
+  <h2 id="h-3d">3D-impressie</h2>
+  <div class="btns" role="group" aria-label="Camerastandpunt">
+    <button type="button" id="v-eet" aria-pressed="true">Vanuit de eethoek</button>
+    <button type="button" id="v-entree" aria-pressed="false">Vanuit de entreedeur</button>
+    <button type="button" id="v-bank" aria-pressed="false">Vanaf de bank</button>
+    <button type="button" id="v-top" aria-pressed="false">Bovenaf</button>
+    <button type="button" id="v-labels" aria-pressed="true">Labels</button>
+  </div>
+  <canvas id="three" aria-label="3D-model van de woonkamer, sleep om te draaien en scroll om te zoomen"></canvas>
+  <p class="note">Sleep om rond te draaien, scroll of knijp om te zoomen. Dit is een maatvast blokkenmodel en geen fotorealistische render. De bank, de Bestå-meubels en de Budrio-tafels hebben hun opgegeven maten. De diepte van het zitgedeelte (≈105) en de breedte van de divan (≈120) heb ik afgeleid uit Haco’s bovenaanzicht. De tv is 65 inch (≈145 × 83). Plafondhoogte (260), vensterbank (≈65) en de krabpaal zijn aannames.</p>
+</section>
+
+<section aria-labelledby="h-prod">
+  <div class="eyebrow">Meubels</div>
+  <h2 id="h-prod">Wat er in het ontwerp staat</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Meubel</th><th>Maat (b × d × h)</th><th>Plek</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Haco Jet 2-zits + divan rechts</td><td class="num">325 × 174 × 82</td><td>Rug tegen de linkerwand, 30 cm van de raamwand</td><td><span class="st zeker">gekocht</span></td></tr>
+      <tr><td>Budrio salontafelset, Ristretto baroque oak met zwart metalen onderstel (<a href="https://www.profijtmeubel.nl/salontafel-budrio-10450179.html" target="_blank" rel="noopener">Profijt Meubel</a>)</td><td class="num">86 × 82 × 39<br>71 × 67 × 44</td><td>Voor het 2-zitsdeel, met de kleine tafel half over de grote</td><td><span class="st zeker">gekocht</span></td></tr>
+      <tr><td>BESTÅ tv-meubel met deuren, zwartbruin Hedeviken / donkerbruin eikenfineer (<a href="https://www.ikea.com/nl/nl/p/besta-tv-meubel-met-deuren-zwartbruin-hedeviken-donkerbruin-eikenfineer-s19422180/" target="_blank" rel="noopener">IKEA</a>)</td><td class="num">180 × 42 × 38</td><td>Zwevend op de korte buitenmuur, onderkant ±20 cm boven de vloer</td><td><span class="st schat">voorstel</span></td></tr>
+      <tr><td>BESTÅ opberger met deuren, zwartbruin Hedeviken / Stubbarp / donkerbruin eikenfineer</td><td class="num">120 × 42 × 74</td><td>Linkerwand, tussen de krabpaal en de hoek bij de entree</td><td><span class="st schat">voorstel</span></td></tr>
+      <tr><td>Krabpaal</td><td class="num">50 × 50 × 150</td><td>Linkerwand, direct naast de armleuning</td><td><span class="st onb">aanname</span></td></tr>
+      <tr><td>Tv, 65 inch</td><td class="num">≈ 145 × 83</td><td>Aan de muur boven het tv-meubel</td><td><span class="st schat">advies</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="two">
+    <div>
+      <h3>Waarom Hedeviken donkerbruin?</h3>
+      <p>De Budrio heeft een donkerbruin eikendecor met zwart metaal. De Bestå-variant ‘zwartbruin met Hedeviken donkerbruin gebeitst eikenfineer’ komt daar het dichtst bij: een donkere eikenfront op een zwartbruin frame. Het ene is fineer en het andere melamine, dus de tint zal niet precies gelijk zijn. Neem een foto van het tafelblad mee naar de winkel of leg een Hedeviken-deurtje ernaast.</p>
+    </div>
+    <div>
+      <h3>Dressoir: staand of zwevend?</h3>
+      <p>Ik heb de staande versie van 120 × 42 × 74 op Stubbarp-poten getekend, want die hoeft niet aan de muur te hangen. Wil je het dressoir ook zwevend, zodat het bij het tv-meubel past, dan is er een kast van 120 × 42 × 64. Beide hebben dezelfde 120 × 42 voetafdruk, dus de plattegrond blijft gelijk.</p>
+    </div>
+  </div>
+  <p class="note">Prijzen en uitvoeringen zag ik vandaag (27-10-2026) op ikea.com/nl. Volgens IKEA is het tv-meubel geschikt voor een tv tot 72 inch en draagt het bovenblad maximaal 30 kg. Of zwevend ophangen een aparte ophangrail vraagt, zegt de productpagina niet duidelijk. Kijk dat na in de montage-instructie. De draagkracht hangt af van de muur: een buitenmuur van steen is goed, maar gebruik pluggen die bij de muur passen.</p>
+</section>
+
+<section aria-labelledby="h-opts">
+  <div class="eyebrow">Vergelijking</div>
+  <h2 id="h-opts">Drie opstellingen met de bank tegen de wand</h2>
+  <div class="opts">
+    <div class="opt best">
+      <span class="tag ok">Advies</span>
+      <h3>A. Krabpaal naast de bank</h3>
+      <svg class="mini" data-opt="A" viewBox="-30 -40 540 640" width="100%" role="img" aria-label="Mini-plattegrond optie A"></svg>
+      <ul>
+        <li>De krabpaal staat precies waar de kat anders aan de armleuning zou krabben</li>
+        <li>Dressoir bij de entree, handig voor sleutels en post</li>
+        <li>Krap: 10 en 15 cm rond de krabpaal, dus een voet van maximaal ±70 cm</li>
+      </ul>
+    </div>
+    <div class="opt">
+      <span class="tag meh">Kan ook</span>
+      <h3>B. Dressoir naast de bank</h3>
+      <svg class="mini" data-opt="B" viewBox="-30 -40 540 640" width="100%" role="img" aria-label="Mini-plattegrond optie B"></svg>
+      <ul>
+        <li>Het dressoir als ‘bijzettafel’ naast de armleuning</li>
+        <li>Krabpaal in de hoek bij de entreedeur, maar 6 cm van een opendraaiende deur</li>
+        <li>De armleuning staat onbeschermd naast een kast waar de kat op kan springen</li>
+      </ul>
+    </div>
+    <div class="opt">
+      <span class="tag no">Valt af</span>
+      <h3>C. Bank vrij in de kamer (v1)</h3>
+      <svg class="mini" data-opt="C" viewBox="-30 -40 540 640" width="100%" role="img" aria-label="Mini-plattegrond optie C"></svg>
+      <ul>
+        <li>Meer ruimte aan de linkerwand</li>
+        <li>Maar de bankrug staat vrij en kan dus bekrabd worden, en dat willen jullie niet</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-chk">
+  <div class="eyebrow">D · Praktische controle</div>
+  <h2 id="h-chk">Gecontroleerd op maat</h2>
+  <div class="chk">
+    <div><span class="y">✓</span><span><strong>Linkerwand (560):</strong> 30 vrij bij het raam + 325 bank + 10 + 50 krabpaal + 15 + 120 dressoir + 10 tot de hoek = 560. De krabpaal en het dressoir hebben samen 35 cm speling. Een krabpaal tot ±70 cm breed past, of een dressoir tot ±150 cm (er bestaan geen tussenmaten, dus 120 of 180, en 180 past niet).</span></div>
+    <div><span class="y">✓</span><span><strong>Bank en raam:</strong> de divan blijft 30 cm van de raamwand, genoeg voor gordijnen. De bekende radiator zit rechts van de divan (≈235–320) en blijft vrij. Of er onder het linkerdeel van het raam ook een radiator zit, is nog onbekend. Zo ja, dan zit die achter het open einde van de divan, en houdt 30 cm de warmte vrij.</span></div>
+    <div><span class="y">✓</span><span><strong>Salontafels:</strong> 45 cm van de zitting tot de grote tafel, en 40 cm van het einde van de divan. Van de kleine tafel tot het tv-meubel blijft 143 cm vrij, dus je kunt makkelijk naar het hoekraam lopen.</span></div>
+    <div><span class="y">✓</span><span><strong>Tv-meubel (zwevend):</strong> 180 cm op de muur van 247: 10 cm tot het zijraampje en 11 cm tot het einde van de muur. 42 cm diep. Doordat hij zweeft, kun je eronder stofzuigen. Een kat die erop springt zit op 58 cm hoogte. Houd de tv dus achter of boven het meubel.</span></div>
+    <div><span class="y">✓</span><span><strong>Looproutes:</strong> van de entree naar keuken en eethoek minstens 138 cm (bank → kookeiland). Van de eethoek naar het raam via 143 cm tussen tafels en tv-meubel. De ruimte voor het dressoir is open, dus de Hedeviken-deurtjes (60 cm) gaan vrij open.</span></div>
+    <div><span class="w">!</span><span><strong>Dressoir en entreedeur:</strong> 14 cm tussen de voorkant van het dressoir en het deurblad, als de deur naar binnen draait met het scharnier aan de wandkant. Dat past, maar het is krap. Draait de deur de andere kant op of naar buiten, dan is er niets aan de hand.</span></div>
+    <div><span class="w">!</span><span><strong>Kijkafstand ≈ 4,0 m:</strong> voor 55 inch is dat aan de ruime kant, want het beeld voelt dan klein. Daarom adviseer ik 65 inch. Dat past op het meubel (tot 72 inch, max. 30 kg) en vult de muur van 247 cm goed.</span></div>
+    <div><span class="w">!</span><span><strong>Kat en bank:</strong> de rug staat tegen de muur en de armleuning naast de krabpaal. Blijft het open einde van de divan bij het raam over. Als de kat daar begint, leg dan tijdelijk een krabmat of dubbelzijdig plakband op dat stuk.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-an">
+  <div class="eyebrow">A · Analyse huidige ruimte</div>
+  <h2 id="h-an">Wat zeker is en wat geschat</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Element</th><th>Maat / positie</th><th>Status</th><th>Bron</th></tr></thead>
+    <tbody>
+      <tr><td>Woonkamer binnenmaat</td><td class="num">457 × 560</td><td><span class="st zeker">bevestigd</span></td><td>Binnenmaat + Zibber</td></tr>
+      <tr><td>Korte buitenmuur rechts (tv-muur)</td><td class="num">247</td><td><span class="st zeker">bevestigd</span></td><td>Binnenmaat</td></tr>
+      <tr><td>Groot raam in tuingevel</td><td class="num">≈ 40 → 325 vanaf linkerwand</td><td><span class="st schat">geschat ±10</span></td><td>Zibber, foto 642/645</td></tr>
+      <tr><td>Hoekraam (gevel + zijkant)</td><td class="num">≈ 404 → 457 · zijkant ≈ 0 → 46</td><td><span class="st schat">geschat ±10</span></td><td>Zibber, foto 581/642</td></tr>
+      <tr><td>Radiator onder groot raam (oostdeel)</td><td class="num">≈ 235 → 320</td><td><span class="st schat">geschat</span></td><td>foto 581/642/645</td></tr>
+      <tr><td>Radiator onder westdeel raam</td><td>niet te zien</td><td><span class="st onb">onbekend</span></td><td>foto 642</td></tr>
+      <tr><td>Deur naar entree (zuidwand)</td><td class="num">≈ 56 → 136</td><td><span class="st schat">geschat</span></td><td>Zibber, foto 644</td></tr>
+      <tr><td>Draairichting die deur</td><td>niet te zien</td><td><span class="st onb">onbekend</span></td><td>foto 644</td></tr>
+      <tr><td>Kookeiland steekt woonkamer in</td><td class="num">≈ x 254 → 442 · y 493 → 557</td><td><span class="st schat">geschat</span></td><td>Zibber, foto 582/644</td></tr>
+      <tr><td>Stroom / tv-aansluiting op de tv-muur</td><td>de tv stond daar al, dus waarschijnlijk wel</td><td><span class="st onb">aanname</span></td><td>foto 581/642</td></tr>
+      <tr><td>Plafondhoogte</td><td>niet opgegeven (3D gebruikt 260)</td><td><span class="st onb">onbekend</span></td><td>–</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section aria-labelledby="h-ask">
+  <div class="eyebrow">Open punten</div>
+  <h2 id="h-ask">Nog te checken</h2>
+  <ol class="ask">
+    <li><strong>Krabpaal:</strong> voetmaat (getekend 50 × 50, max ±70 cm breed).</li>
+    <li><strong>Radiator:</strong> zit er een onder het linkerdeel van het grote raam?</li>
+    <li><strong>Entreedeur:</strong> draait die de woonkamer in, en aan welke kant zit het scharnier?</li>
+    <li><strong>Divan rechts:</strong> bevestiging op de orderbevestiging.</li>
+    <li><strong>Kleur:</strong> een Hedeviken-front naast het Budrio-blad leggen.</li>
+  </ol>
+</section>
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-'use strict';
-const LP={lp1:{l:'LP1 \u2014 Best Practices',c:'#185FA5',bg:'#E6F1FB',d:'#0C447C'},lp2:{l:'LP2 \u2014 SecOps & Identity',c:'#534AB7',bg:'#EEEDFE',d:'#3C3489'},lp3:{l:'LP3 \u2014 Infrastructure',c:'#BA7517',bg:'#FAEEDA',d:'#633806'},lp4:{l:'LP4 \u2014 Apps & Data',c:'#A32D2D',bg:'#FCEBEB',d:'#791F1F'}};
-const W=[
-{n:1,ph:'Fundament',pc:'#185FA5',pb:'#E6F1FB',t:'MCRA, Zero Trust & best practice frameworks',h:'8\u201310 uur',ms:null,mods:[{lp:'lp1',b:'LP1 M1',nw:false,nm:'Introduction to Zero Trust and best practice frameworks',u:'https://learn.microsoft.com/en-us/training/modules/introduction-zero-trust-best-practice-frameworks/',ds:'Zero Trust principes, CAF, WAF, MCRA en MCSB als beslissingsraamwerk.',fc:'Lees elk framework als architectuurkeuze. Noteer per framework de 3 kernbeslissingen die het stuurt.'},{lp:'lp1',b:'LP1 M2',nw:false,nm:'Design solutions that align with CAF and WAF',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-align-cloud-adoption-framework-well-architected-framework/',ds:'Cloud Adoption Framework security disciplines en Well-Architected Framework security pillar. Inclusief Azure Landing Zones, DevSecOps en veilige AI-adoptie.',fc:'Vertaal CAF security disciplines naar concrete architectuurkeuzes. Let extra op Landing Zones, DevSecOps pipeline en AI security.'}],sk:'Je kent Zero Trust al uit SC-300/AZ-500. Skip introductiesecties.',sc:{date:'29 apr 2026',items:['<strong>CAF \u2014 7 fases:</strong> Strategy \u2192 Plan \u2192 Ready \u2192 Migrate \u2192 Innovate \u2192 Govern \u2192 Manage. Niet lineair; security loopt door alle fases (Shift Left).','<strong>WAF \u2014 CROPS:</strong> Cost Optimization \u00b7 Reliability \u00b7 Operational Excellence \u00b7 Performance Efficiency \u00b7 Security.','<strong>Zero Trust \u2014 3 principes:</strong> Assume Breach \u00b7 Verify Explicitly \u00b7 Least Privilege. De 7 pillars zijn lagen van defense in depth: Identity \u00b7 Endpoints \u00b7 Applications \u00b7 Network \u00b7 Infrastructure \u00b7 Data \u00b7 SecOps.','<strong>Frameworks samenhang:</strong> CAF = adoptie | WAF = workload kwaliteit | MCRA = referentie | MCSB = benchmark (NIST/CIS) | RaMP = quick wins tijdens Migrate.','<strong>Antipatroon:</strong> Technologie starten zonder strategie \u2192 GDPR-risico, breach-venster door ontbrekende controls.','<strong>SecOps:</strong> Lijn 1 detecteert (SOC), lijn 2 respondeert (IT-Ops). Korte feedback loop = kleinere impact. Linked aan Assume Breach.','<strong>Azure Landing Zones:</strong> Gestandaardiseerde cloud-omgeving afgedwongen via Azure Policy op management group niveau. Platform- vs applicatie-landing zones. Voorkomt inconsistente security posture per subscription.','<strong>DevSecOps pipeline (Shift Left):</strong> V\u00f3\u00f3r coderen: goedgekeurde libraries + threat model \u2192 Bij commit: secret scanning \u2192 O: SCA (gevaarlijke libraries) \u2192 T: SAST (code kwetsbaarheden) \u2192 A: security gates \u2192 P: DAST + CVE monitoring.','<strong>AI security:</strong> Prompt injection = aanvaller manipuleert AI-instructies via input. Mitigatie: Purview labels + DLP (data-exposure), Least Privilege op managed identity, input validatie op systeeminstructies.']},ex:'aka.ms/mcra \u2014 lees alle referentie-architectuurdiagrammen.',cp:'Kun je het verschil tussen CAF, WAF, MCRA en MCSB uitleggen zonder te zoeken?',cl:[{tt:'Theorie & modules',it:[{id:'1-t1',tx:'LP1 M1 afgerond: Introduction to Zero Trust and best practice frameworks'},{id:'1-t2',tx:'LP1 M2 afgerond: Design solutions that align with CAF and WAF'},{id:'1-t3',tx:'MCRA referentie-architectuurdiagrammen doorgenomen (aka.ms/mcra)'},{id:'1-t4',tx:'Zero Trust RaMP gelezen \u2014 adoptievolgorde begrijpen'},{id:'1-t5',tx:'Azure Landing Zones gelezen \u2014 structuur van platform vs applicatie landing zones'},{id:'1-t6',tx:'DevSecOps pipeline begrepen \u2014 SAST, SCA, secret scanning, security gates'},{id:'1-t7',tx:'CAF secure AI adoption strategie gelezen'}]},{tt:'Oefeningen',it:[{id:'1-a1',tx:'MCRA end-to-end diagram uit het hoofd getekend'},{id:'1-a2',tx:'Per framework (CAF / WAF / MCRA / MCSB) 3 kernbeslissingen opgeschreven'},{id:'1-a3',tx:'Denkoefening: Zero Trust adoptievolgorde voor hybrid enterprise'},{id:'1-a4',tx:'Landing zone architectuur geschetst met Azure Policy op management group niveau'},{id:'1-a5',tx:'DevSecOps pipeline getekend met security check per fase (O/T/A/P)'},{id:'1-a6',tx:'AI security architectuur uitgewerkt: prompt injection mitigatie + Purview DLP + POLP'}]},{tt:'Checkpoint',it:[{id:'1-c1',tx:'Ik kan CAF, WAF, MCRA en MCSB uitleggen zonder notes'},{id:'1-c2',tx:'Ik kan de 7 Zero Trust pijlers koppelen aan Microsoft controls'},{id:'1-c3',tx:'Ik kan uitleggen waarom Azure Policy op management group niveau essentieel is voor landing zones'},{id:'1-c4',tx:'Ik kan een volledige DevSecOps pipeline beschrijven met security check per fase'},{id:'1-c5',tx:'Ik kan prompt injection uitleggen en 3 mitigerende maatregelen noemen'}]}]},
-{n:2,ph:'Fundament',pc:'#185FA5',pb:'#E6F1FB',t:'MCRA & MCSB + ransomware resiliency',h:'8\u201310 uur',ms:null,mods:[{lp:'lp1',b:'LP1 M3',nw:false,nm:'Design solutions that align with MCRA and MCSB',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-microsoft-cybersecurity-cloud-security-benchmark/',ds:'SAF, MCRA en MCSB als ontwerpraamwerk. Supply chain, insider threats en AI-security.',fc:'MCSB controls als concrete architectuurkeuzes. Welke MCSB control dekt welk risico?'},{lp:'lp1',b:'LP1 M4',nw:false,nm:'Design a resiliency strategy for ransomware and other attacks',u:'https://learn.microsoft.com/en-us/training/modules/design-resiliency-strategy-common-cyberthreats-like-ransomware/',ds:'Ransomware resiliency, BCDR, backup-isolatie en recovery design.',fc:'Ransomware-resiliency als architectuurprobleem: segmentatie, backup-isolatie, recovery tijden.'}],sk:null,sc:{date:'30 apr 2026',items:['<strong>MCRA vs MCSB:</strong> MCRA = inzicht in welke producten er zijn en hoe ze samenhangen (de architectuur). MCSB = meetbare controls per pilaar om te meten hoe goed de security posture is (de benchmark). MCRA is het "wat en hoe", MCSB is het "hoe goed doe ik het".','<strong>MCRA scope:</strong> Niet alleen Azure \u2014 hybride omgevingen \u00e9n multicloud. Gebruik Defender for Cloud CSPM om AWS/GCP te connecten en centraal te monitoren. MCSB is dan de meetlat voor die multicloud posture.','<strong>Shared Responsibility Model:</strong> Van IaaS \u2192 SaaS verschuift verantwoordelijkheid steeds meer naar de provider. Wat ALTIJD bij de klant blijft: data, identiteiten en toegangsbeheer \u2014 ongeacht het servicemodel.','<strong>Zero Trust \u2014 3 principes:</strong> Verify Explicitly \u00b7 Use Least Privilege \u00b7 Assume Breach. Deze principes liggen ook ten grondslag aan ransomware-resiliency: segmentatie (Assume Breach), minimale toegang (Least Privilege).','<strong>SFI \u2014 3 principes (Microsoft als leverancier):</strong> Innovate = security by design inbouwen, secure by default (voorbeeld: Security Defaults in Entra ID). Implement = security afdwingen via enforced standards (voorbeeld: SMS-authenticatie afbouwen). Guide = klanten begeleiden via frameworks en best practices (voorbeeld: MCRA en MCSB).','<strong>Ransomware backup strategie \u2014 3-2-1 regel:</strong> 3 backups, op 2 verschillende media, 1 offsite. Risico: dwell time \u2014 ransomware wacht weken in het netwerk voordat het toeslaat, waardoor alle backups al gecompromitteerd kunnen zijn.','<strong>Immutable vs Air-gapped:</strong> Immutable = backup kan niet worden overschreven/gewijzigd \u2192 beschermt integriteit. Air-gapped = backup heeft geen netwerkverbinding, fysiek of logisch ge\u00efsoleerd \u2192 beschermt beschikbaarheid. Samen afdekken ze twee van de drie CIA-principes.','<strong>Ransomware response \u2014 3 fases:</strong> 1) Isoleren: verspreiding stoppen (netwerksegmentatie, systemen offline). 2) Herstellen: immutable/air-gapped backups terugzetten. 3) Verbeteren: zwakheden aanpakken zodat herhaling wordt voorkomen.','<strong>Netwerksegmentatie + Assume Breach:</strong> Door er altijd vanuit te gaan dat een systeem gecompromitteerd is, beperk je laterale beweging van ransomware tot \u00e9\u00e9n VLAN/VNet. Combineer met Least Privilege: alleen toegang tot het broodnodige.','<strong>MCRA + MCSB in de praktijk:</strong> Gebruik MCRA om te bepalen welke producten in samenhang worden ingezet voor ransomware-resiliency (architectuurkeuzes). Gebruik MCSB om te meten wat de security posture is en die via aanbevelingen te versterken (continu verbeteren).']},ex:'Microsoft Security Best Practices (aka.ms/securitybestpractices).',cp:'Kun je de MCRA architectuur tekenen en per component de bijbehorende MCSB-control benoemen?',cl:[{tt:'Theorie & modules',it:[{id:'2-t1',tx:'LP1 M3 afgerond: Design solutions that align with MCRA and MCSB'},{id:'2-t2',tx:'LP1 M4 afgerond: Design a resiliency strategy for ransomware and other attacks'},{id:'2-t3',tx:'Microsoft Security Best Practices gelezen voor minimaal 2 domeinen'}]},{tt:'Oefeningen',it:[{id:'2-a1',tx:'MCSB control-mapping gemaakt: welke controls dekken welk risicotype'},{id:'2-a2',tx:'Ransomware resiliency architectuur geschetst: backup-isolatie, segmentatie, recovery'},{id:'2-a3',tx:'Denkoefening: BCDR-strategie voor hybrid enterprise inclusief prioritering'}]},{tt:'Checkpoint',it:[{id:'2-c1',tx:'Ik kan MCRA tekenen en components koppelen aan MCSB controls'},{id:'2-c2',tx:'Ik kan ransomware resiliency architectuur uitleggen aan een CISO'}]}]},
-{n:3,ph:'Identity',pc:'#534AB7',pb:'#EEEDFE',t:'Identity & access management + compliance architectuur',h:'10\u201312 uur',ms:null,mods:[{lp:'lp2',b:'LP2 M1',nw:false,nm:'Design solutions for regulatory compliance',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-regulatory-compliance/',ds:'Compliance naar security controls. Purview Compliance Manager incl. AI governance. Priva voor privacy. Azure Policy. Defender for Cloud compliance.',fc:'Compliance als architectuurinput: controls selecteren op basis van AVG, BIO, ISO 27001, EU AI Act.'},{lp:'lp2',b:'LP2 M2',nw:true,nm:'Design solutions for identity and access management',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-identity-access-management/',ds:'Identity architecture patterns. B2B vs B2C vs External ID. Decentralized identity \u2014 nieuw examenstof apr 2026.',fc:'Nieuw apr 2026: decentralized identity is examenstof. Wanneer kies je Entra Verified ID vs B2B/B2C?'},{lp:'lp2',b:'LP2 M3',nw:false,nm:'Design solutions for securing privileged access',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-privileged-access/',ds:'Enterprise Access Model, PIM-architectuur, PAW en CIEM voor multi-cloud.',fc:'Enterprise Access Model als vervanger van legacy tiering. Vertaal naar PIM-configuratie en PAW design.'}],sk:'Je kent Entra ID en PIM al uit SC-300. Skip how-to secties.',sc:{date:'6 mei 2026',items:['<strong>Governance vs Compliance:</strong> Governance = de inrichting en naleving van intern \u00e9n extern beleid. Compliance = een specifieke vorm van governance gericht op externe vereisten zoals AVG, BIO, ISO 27001, NEN 7510. Governance is het bredere concept; compliance is een onderdeel ervan.','<strong>Security Controls \u2014 3 categorie\u00ebn (People / Process / Technology):</strong> Administrative (procedureel) = clean desk policy, BYOAI beleid. Technical = CA policies, DSPM, DLP. Physical = SOC in afgeschermd hok, slot op serverruimte. Belangrijk: de meeste activiteiten bevatten elementen van alle drie.','<strong>Microsoft Purview \u2014 component samenhang:</strong> Compliance Manager = meten hoe compliant je bent (toetsen tegen AVG, ISO 27001, NIST). DLP = afdwingen dat data niet verkeerd gedeeld wordt. Sensitivity Labels + Trainable Classifiers = data classificeren. Compliance Manager is de auditor; DLP is de bewaker bij de deur.','<strong>Microsoft Priva:</strong> Privacy Risk Management = detecteert risico&#39;s zoals overexposed persoonsgegevens. Subject Rights Requests = automatiseert de afhandeling van AVG-rechten (inzage, vergetelheid, portabiliteit, bezwaar). Voordeel vs handmatig: volledigheid en geen risico op per ongeluk delen van andermans data.','<strong>AVG \u2014 8 rechten:</strong> Inzage &middot; Rectificatie &middot; Vergetelheid &middot; Beperking &middot; Dataportabiliteit &middot; Bezwaar &middot; Menselijke beoordeling &middot; Informatie. Subject Rights Requests in Priva automatiseert de afhandeling hiervan.','<strong>Azure Policy:</strong> Policy definitions met effecten (Audit, Deny, DeployIfNotExists). Initiatives = bundel van policies als \u00e9\u00e9n geheel. Management Groups = hi\u00ebrarchisch toewijzen aan alle subscriptions. Exemptions = uitzonderingen zonder policy te verwijderen. DeployIfNotExists vereist een Managed Identity om namens jou resources te deployen.','<strong>Defender for Cloud vs Compliance Manager:</strong> Defender for Cloud meet Secure Score = security posture (aanvalsoppervlak verkleinen). Compliance Manager meet Compliance Score = hoe compliant je bent t.o.v. een extern framework. Hoge Secure Score &ne; automatisch compliant en vice versa.','<strong>EU AI Act \u2014 4 risiconiveaus:</strong> Onaanvaardbaar (verboden) = social scoring, manipulatie. Hoog = leningen, sollicitaties, medische diagnoses, rechtspraak. Beperkt = chatbots moeten zich als AI identificeren. Minimaal = spamfilters, muziekaanbevelingen. CV-screening = hoog risico: vereist transparantie, menselijk toezicht, documentatie.','<strong>Identity types:</strong> Gebruikersaccounts &middot; Service Principals (applicaties, multi-tenant) &middot; Managed Identity (single-tenant SP, alleen Azure resources, geen secret rotation nodig) &middot; Agent identities (Agent Accounts + Blueprints). Azure Arc maakt Managed Identity mogelijk op on-premises servers.','<strong>Zero Trust IAM principes:</strong> Least Privilege &middot; JIT via PIM &middot; Access Reviews voor stale permissions &middot; Lifecycle Workflows voor Joiner/Mover/Leaver automatisering &middot; Access Packages voor self-service toegang. Permission Creep = gevaar van groeiende ongebruikte permissies over tijd.','<strong>Conditional Access \u2014 Plan 1 vs Plan 2:</strong> Plan 1 = statische signalen: named locations, device compliance. Plan 2 = risk-based: Identity Protection met Sign-in risk (\u00e9\u00e9n verdachte inlog) en User risk (cumulatief patroon). CAE = Continuous Access Evaluation: tokens worden real-time gerevoked bij verdachte signalen (window of opportunity: 1 uur &rarr; bijna 0).','<strong>AD DS hardening:</strong> Pass-the-Hash aanval misbruikt NTLM hashes. Kerberoasting = service tickets offline kraken; mitigatie: gMSA (240-byte automatisch roterende wachtwoorden). Golden Ticket = KRBTGT hash gecompromitteerd &rarr; TWEE resets nodig (AD bewaart huidig + vorig wachtwoord). DCSync = replicatierechten misbruikt om alle hashes op te halen zonder DC-toegang. Mitigatie: minimale replicatierechten + monitoring in Sentinel/Defender for Identity.','<strong>Enterprise Access Model \u2014 3 lagen:</strong> Control Plane (identiteit en toegang, meest kritiek) &rarr; Management Plane (resource configuraties) &rarr; Data/Workload Plane (data en applicaties). Wie de Control Plane beheert, beheert alles eronder. Global Admin = Control Plane; vereist PAW + JIT + MFA + compliant device.','<strong>PAW vs Compliant Device:</strong> Compliant device = voldoet aan Intune policies. PAW = geharde werkplek zonder browser/mail, alleen admins, AppLocker restricties. Combineer met Azure Bastion: PAW beschermt het apparaat, Bastion beschermt de management poorten (SSH 22, RDP 3389 niet open naar internet).','<strong>PIM vs PAM:</strong> PIM = rol-niveau (Entra rollen, Azure resource rollen). PAM (Microsoft Purview) = taak-niveau binnen Microsoft 365. Samen: PIM controleert wie de rol heeft; PAM controleert welke specifieke taken mogen worden uitgevoerd met die rol. Defense in depth op identity niveau.','<strong>CIEM en Permissions Management:</strong> CIEM = Cloud Infrastructure Entitlement Management. Defender for Cloud Permissions Management detecteert excessieve permissies in multicloud (Azure + AWS + GCP). Onderscheid: toegewezen permissies vs daadwerkelijk gebruikte permissies. Hoe groter het verschil, hoe hoger het risico (blast radius).']},ex:'Entra Verified ID: learn.microsoft.com/entra/verified-id.',cp:'Kun je een post-merger identity architectuur uitleggen incl. keuze voor B2B / B2C / External ID / decentralized identity?',cl:[{tt:'Theorie & modules',it:[{id:'3-t1',tx:'LP2 M1 afgerond: Design solutions for regulatory compliance \u2713 al gedaan'},{id:'3-t2',tx:'LP2 M2 afgerond: Design solutions for identity and access management \u2713 al gedaan'},{id:'3-t3',tx:'LP2 M3 afgerond: Design solutions for securing privileged access \u2713 al gedaan'},{id:'3-t4',tx:'Entra Verified ID (decentralized identity) gelezen',nw:true},{id:'3-t5',tx:'CIEM als architectuurlaag begrepen',nw:true}]},{tt:'Oefeningen',it:[{id:'3-a1',tx:'Identity architectuur voor post-merger scenario geschetst'},{id:'3-a2',tx:'B2B vs B2C vs External ID vs Decentralized Identity beslismodel uitgewerkt'},{id:'3-a3',tx:'Enterprise Access Model getekend en vertaald naar PIM + PAW design'},{id:'3-a4',tx:'Non-human identity architectuur (managed identities, CIEM) uitgewerkt'}]},{tt:'Checkpoint',it:[{id:'3-c1',tx:'Ik kan B2B, B2C, External ID en decentralized identity onderscheiden'},{id:'3-c2',tx:'Ik kan het Enterprise Access Model uitleggen en koppelen aan controls'}]}]},
-{n:4,ph:'Identity',pc:'#534AB7',pb:'#EEEDFE',t:'Compliance case study & identity verdieping',h:'8\u201310 uur',ms:null,mods:[{lp:'lp2',b:'LP2 M5',nw:false,nm:'Case study: Modernizing identity and data security',u:'https://learn.microsoft.com/en-us/training/modules/case-study-identity-data-security/',ds:'Business scenario: identity en data security architectuur ontwerpen als cybersecurity architect.',fc:'Doe deze case study op papier voor je het antwoord ziet.'}],sk:null,sc:null,ex:'Purview Compliance Manager: learn.microsoft.com/purview/compliance-manager.',cp:'Kun je compliance requirements vertalen naar een concrete control-set?',cl:[{tt:'Theorie & modules',it:[{id:'4-t2',tx:'LP2 M5 (case study): Modernizing identity and data security'},{id:'4-t3',tx:'Purview Compliance Manager voor AI governance verdiept',nw:true},{id:'4-t4',tx:'Microsoft Priva als privacy-architectuurcomponent verdiept'}]},{tt:'Oefeningen',it:[{id:'4-a1',tx:'Case study eigen oplossing op papier voor het bekijken van het antwoord'},{id:'4-a2',tx:'Compliance-mapping: ISO 27001 / NIST / PCI naar controls naar Azure Policy / Purview'},{id:'4-a3',tx:'Denkoefening: compliance architectuur voor EU + VS jurisdicties'}]},{tt:'Checkpoint',it:[{id:'4-c1',tx:'Ik kan compliance requirements vertalen naar een concrete control-set'},{id:'4-c2',tx:'Ik kan uitleggen welk Purview-component welke compliance-eis afdekt'}]}]},
-{n:5,ph:'SecOps',pc:'#0F6E56',pb:'#E1F5EE',t:'Security operations architectuur & SecOps case study',h:'10\u201312 uur',ms:null,mods:[{lp:'lp2',b:'LP2 M4',nw:false,nm:'Design solutions for security operations',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-security-operations/',ds:'SecOps design: logging, Purview Audit, SIEM (Sentinel), SOAR en MITRE ATT&CK coverage.',fc:'Sentinel workspace-architectuur: single vs multi-workspace trade-offs. MITRE ATT&CK als coverage-analyse tool.'},{lp:'lp2',b:'LP2 M6',nw:false,nm:'Case study: Modernizing user access control and threat resilience',u:'https://learn.microsoft.com/en-us/training/modules/case-study-access-control-threat-resilience/',ds:'Business scenario: access control en threat resilience met XDR en SIEM.',fc:'Snijvlak van identity controls en SecOps detectie. Hoe voed je Sentinel met identity risk signalen?'}],sk:'Je kent Sentinel uit SC-200. Skip productintroductie.',sc:null,ex:'Sentinel workspace architectuur: aka.ms/sentinel-workspace-architecture.',cp:'Kun je een multi-tenant Sentinel architectuur ontwerpen met GDPR data-isolatie?',cl:[{tt:'Theorie & modules',it:[{id:'5-t1',tx:'LP2 M4 afgerond: Design solutions for security operations'},{id:'5-t2',tx:'LP2 M6 (case study): Modernizing user access control and threat resilience'},{id:'5-t3',tx:'Purview Audit als architectuurcomponent voor centralized logging begrepen'},{id:'5-t4',tx:'MITRE ATT&CK matrices gelezen: Enterprise, Mobile en ICS'}]},{tt:'Oefeningen',it:[{id:'5-a1',tx:'Sentinel workspace architectuur getekend voor multi-tenant GDPR scenario'},{id:'5-a2',tx:'SOAR playbook-architectuur geschetst voor top 3 incident types'},{id:'5-a3',tx:'MITRE ATT&CK coverage-gap analyse gedaan voor fictieve enterprise'},{id:'5-a4',tx:'Denkoefening: SecOps architectuur voor cloud-native en hybrid'}]},{tt:'Checkpoint',it:[{id:'5-c1',tx:'Ik kan trade-offs van gecentraliseerde vs gedistribueerde Sentinel uitleggen'},{id:'5-c2',tx:'Ik kan MITRE ATT&CK gaps vertalen naar architectuurkeuzes'}]}]},
-{n:6,ph:'Milestone',pc:'#993C1D',pb:'#FAECE7',t:'Practice exam 1 + domein gap analyse',h:'10 uur',ms:'PRACTICE EXAM 1',mods:[],sk:null,sc:null,ex:'MeasureUp of Whizlabs practice exam: 60\u201370 vragen, tijdslimiet aan.',cp:'Scoor je >65%? Noteer je 3 zwakste domeinen.',cl:[{tt:'Practice exam',it:[{id:'6-p1',tx:'Practice exam 1 gedaan onder tijdsdruk (~180 min)'},{id:'6-p2',tx:'Scores per domein genoteerd'},{id:'6-p3',tx:'Per fout antwoord: gemist architectuurprincipe opgeschreven'},{id:'6-p4',tx:'3 zwakste domeinen geidentificeerd'}]},{tt:'Gap analyse',it:[{id:'6-g1',tx:'Week 7 en 8 bijgesteld op basis van zwakste domeinen'},{id:'6-g2',tx:'Notitie: welke MCRA-componenten kwamen voor waar ik onzeker was'}]}]},
-{n:7,ph:'Infrastructuur',pc:'#BA7517',pb:'#FAEEDA',t:'SaaS/PaaS/IaaS, posture management & Security Exposure Management',h:'10\u201312 uur',ms:null,mods:[{lp:'lp3',b:'LP3 M1',nw:false,nm:'Specify requirements for securing SaaS, PaaS, and IaaS services',u:'https://learn.microsoft.com/en-us/training/modules/specify-requirements-securing-saas-paas-iaas-services/',ds:'Security requirements voor SaaS, PaaS, IaaS, IoT, containers en AI-workloads.',fc:'Shared responsibility vertalen naar control-keuzes per cloudmodel.'},{lp:'lp3',b:'LP3 M2',nw:true,nm:'Design solutions for security posture management in hybrid and multicloud',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/',ds:'Defender for Cloud, Azure Arc, MCSB, CSPM vs CWP vs CIEM. Security Exposure Management: attack paths.',fc:'Nieuw apr 2026: Security Exposure Management is expliciet examenstof.'}],sk:'Je kent Defender for Cloud uit AZ-500. Skip feature-introductie.',sc:null,ex:'Microsoft Security Exposure Management: learn.microsoft.com/security-exposure-management.',cp:'Kun je de architectuurkeuze uitleggen voor Azure + AWS workloads incl. Security Exposure Management?',cl:[{tt:'Theorie & modules',it:[{id:'7-t1',tx:'LP3 M1 afgerond: Specify requirements for securing SaaS, PaaS, and IaaS services'},{id:'7-t2',tx:'LP3 M2 afgerond: Design solutions for security posture management'},{id:'7-t3',tx:'Microsoft Security Exposure Management gelezen \u2014 attack paths',nw:true},{id:'7-t4',tx:'Azure AI services security requirements gelezen',nw:true},{id:'7-t5',tx:'Defender EASM als architectuurcomponent begrepen'}]},{tt:'Oefeningen',it:[{id:'7-a1',tx:'Shared responsibility matrix gemaakt voor SaaS / PaaS / IaaS'},{id:'7-a2',tx:'Multi-cloud posture architectuur: Azure + AWS met Defender for Cloud + Arc'},{id:'7-a3',tx:'Security Exposure Management gepositioneerd naast Defender for Cloud CSPM'},{id:'7-a4',tx:'Denkoefening: landing zone security voor overheidsorganisatie (BIO / ISO 27001)'}]},{tt:'Checkpoint',it:[{id:'7-c1',tx:'Ik kan CSPM vs CWP vs CIEM uitleggen'},{id:'7-c2',tx:'Ik kan Security Exposure Management uitleggen als architectuurcomponent'}]}]},
-{n:8,ph:'Infrastructuur',pc:'#BA7517',pb:'#FAEEDA',t:'Endpoint security, netwerk & Security Service Edge (SSE)',h:'10\u201312 uur',ms:null,mods:[{lp:'lp3',b:'LP3 M3',nw:false,nm:'Design solutions for securing server and client endpoints',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/',ds:'Endpoint security voor servers, clients, IoT, OT, mobile. Windows LAPS. Defender for IoT voor OT/ICS.',fc:'OT/ICS security is een blinde vlek voor veel kandidaten.'},{lp:'lp3',b:'LP3 M4',nw:true,nm:'Design solutions for network security (incl. SSE)',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/',ds:'Network segmentatie, hub-spoke vs vWAN, Azure Firewall, NSG. SSE: Entra Internet Access en Entra Private Access.',fc:'Nieuw apr 2026: SSE is expliciete examensectie. Entra Internet Access als SWG, Entra Private Access als ZTNA.'},{lp:'lp3',b:'LP3 M5',nw:false,nm:'Case study: Securing endpoints and infrastructure',u:'https://learn.microsoft.com/en-us/training/modules/case-study-endpoints-infrastructure/',ds:'Business scenario: endpoint en infrastructuur security ontwerpen als architect.',fc:'Schrijf eerst je eigen oplossing, dan pas vergelijken.'}],sk:null,sc:null,ex:'Entra Internet Access & Private Access: learn.microsoft.com/entra/global-secure-access.',cp:'Kun je SSE positioneren in een Zero Trust network architectuur?',cl:[{tt:'Theorie & modules',it:[{id:'8-t1',tx:'LP3 M3 afgerond: Design solutions for securing server and client endpoints'},{id:'8-t2',tx:'LP3 M4 afgerond: Design solutions for network security (incl. SSE)'},{id:'8-t3',tx:'LP3 M5 (case study): Securing endpoints and infrastructure'},{id:'8-t4',tx:'Security Service Edge: Entra Internet Access + Entra Private Access gelezen',nw:true},{id:'8-t5',tx:'Cross-tenant configuraties in Entra Internet Access begrepen',nw:true},{id:'8-t6',tx:'Windows LAPS als privileged access control begrepen'}]},{tt:'Oefeningen',it:[{id:'8-a1',tx:'Network architectuur getekend: hub-spoke + Firewall Premium + NSGs + Private Endpoints'},{id:'8-a2',tx:'SSE architectuur geschetst: wanneer Entra Internet Access vs traditionele SWG'},{id:'8-a3',tx:'OT/ICS security architectuur voor productieomgeving met Defender for IoT'},{id:'8-a4',tx:'Denkoefening: Entra Private Access vs Azure VPN Gateway trade-offs'}]},{tt:'Checkpoint',it:[{id:'8-c1',tx:'Ik kan SSE uitleggen als Zero Trust network component'},{id:'8-c2',tx:'Ik kan hub-spoke vs vWAN vs SSE architectureel onderbouwen'},{id:'8-c3',tx:'Ik kan OT/ICS security architectuur uitleggen'}]}]},
-{n:9,ph:'Apps & Data',pc:'#A32D2D',pb:'#FCEBEB',t:'Practice exam 2 + applicatie security & M365',h:'10\u201312 uur',ms:'PRACTICE EXAM 2',mods:[{lp:'lp4',b:'LP4 M1',nw:true,nm:'Evaluate solutions for securing Microsoft 365',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-microsoft-365/',ds:'M365 security: Defender for M365, EOP, Teams, SharePoint, Defender for Cloud Apps. Copilot for M365 data security.',fc:'Nieuw apr 2026: data security en compliance in Copilot for M365 zijn examenstof.'},{lp:'lp4',b:'LP4 M2',nw:false,nm:'Design solutions for securing applications',u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-applications/',ds:'Application security: threat modeling (STRIDE), API Management + WAF, DevSecOps en supply chain security (SBOM).',fc:'DevSecOps en supply chain security is een zwaar onderdeel. SBOM, code signing, pipeline security gates.'}],sk:null,sc:null,ex:'OWASP Top 10 als architectuurinput. Copilot for M365 security: learn.microsoft.com/copilot/microsoft-365.',cp:'Scoor je >72% op practice exam 2?',cl:[{tt:'Practice exam',it:[{id:'9-p1',tx:'Practice exam 2 gedaan onder tijdsdruk'},{id:'9-p2',tx:'Score vergeleken met practice exam 1'},{id:'9-p3',tx:'Resterende gaps genoteerd voor week 10'}]},{tt:'Theorie & modules',it:[{id:'9-t1',tx:'LP4 M1 afgerond: Evaluate solutions for securing Microsoft 365'},{id:'9-t2',tx:'LP4 M2 afgerond: Design solutions for securing applications'},{id:'9-t3',tx:'Copilot for M365 data security en compliance controls gelezen',nw:true},{id:'9-t4',tx:'Azure WAF positie begrepen: Application Gateway vs Front Door'}]},{tt:'Oefeningen',it:[{id:'9-a1',tx:'DevSecOps pipeline architectuur getekend met security gates per fase'},{id:'9-a2',tx:'Threat model (STRIDE) gedaan voor fictieve cloud-native applicatie'},{id:'9-a3',tx:'Copilot for M365 governance architectuur voor enterprise met strict compliance'}]},{tt:'Checkpoint',it:[{id:'9-c1',tx:'Ik kan supply chain security architectuur uitleggen (SBOM, code signing)'},{id:'9-c2',tx:'Ik kan Copilot for M365 data governance uitleggen'}]}]},
-{n:10,ph:'Apps & Data',pc:'#A32D2D',pb:'#FCEBEB',t:'Data security, Purview & end-to-end integratie',h:'10\u201312 uur',ms:null,mods:[{lp:'lp4',b:'LP4 M3',nw:false,nm:"Design solutions for securing an organization's data",u:'https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/',ds:'Data security met Purview (Information Protection, DLP, Insider Risk), Defender for SQL, Defender for Storage, Azure Key Vault.',fc:'Purview als gelaagd systeem: classificatie \u2192 labeling \u2192 DLP \u2192 Insider Risk.'},{lp:'lp4',b:'LP4 M4',nw:false,nm:'Case study: Securing apps and data',u:'https://learn.microsoft.com/en-us/training/modules/case-study-apps-data/',ds:'Business scenario: applicatie en data security architectuur integraal ontwerpen.',fc:'Hoe komen applicatie security en data security samen?'}],sk:null,sc:null,ex:'Purview architectuuroverzicht: learn.microsoft.com/purview/purview.',cp:'Kun je Purview componenten in de juiste volgorde plaatsen?',cl:[{tt:'Theorie & modules',it:[{id:'10-t1',tx:"LP4 M3 afgerond: Design solutions for securing an organization's data"},{id:'10-t2',tx:'LP4 M4 (case study): Securing apps and data'},{id:'10-t3',tx:'Azure Key Vault als architectuurcomponent begrepen'},{id:'10-t4',tx:'Defender for SQL + Defender for Storage als data security laag begrepen'}]},{tt:'Oefeningen',it:[{id:'10-a1',tx:'Case study eigen oplossing op papier voor het bekijken van het antwoord'},{id:'10-a2',tx:'Purview architectuur getekend: classificatie \u2192 labels \u2192 DLP \u2192 Insider Risk'},{id:'10-a3',tx:'End-to-end enterprise security architectuur (alle 4 domeinen geintegreerd)'},{id:'10-a4',tx:'Denkoefening: data security voor Azure SQL + Blob Storage applicatie'}]},{tt:'Checkpoint',it:[{id:'10-c1',tx:'Ik kan Purview uitleggen als gelaagd systeem met afhankelijkheden'},{id:'10-c2',tx:'Ik kan een end-to-end security architectuur presenteren zonder nazoeken'}]}]},
-{n:11,ph:'Examenfase',pc:'#3B6D11',pb:'#EAF3DE',t:'Practice exam 3 + gerichte herhaling',h:'10\u201312 uur',ms:'PRACTICE EXAM 3',mods:[],sk:null,sc:null,ex:"Herlees alle 4 learning path overzichtspagina's. Extra aandacht: SSE, Security Exposure Management, decentralized identity, Copilot governance.",cp:'Scoor je consistent >75%? Dan ben je exam-ready.',cl:[{tt:'Practice exam',it:[{id:'11-p1',tx:'Practice exam 3 gedaan onder tijdsdruk'},{id:'11-p2',tx:'Score >75%? Zo nee: zwakste domein geidentificeerd'},{id:'11-p3',tx:'Score-trend positief t.o.v. examen 1 en 2?'}]},{tt:'Gerichte herhaling',it:[{id:'11-r1',tx:'Zwakste domein 1: extra studie gedaan'},{id:'11-r2',tx:'Zwakste domein 2: architectuurscenario uitgewerkt'},{id:'11-r3',tx:'Apr 2026 onderdelen herhaald: SSE, Exposure Management, decentralized identity, Copilot',nw:true},{id:'11-r4',tx:'MCRA referentie-architecturen als geheel doorgelopen'}]},{tt:'Exam techniek',it:[{id:'11-e1',tx:'Elimination reasoning geoefend'},{id:'11-e2',tx:'Case-study aanpak geoefend: hele case lezen voor eerste vraag'},{id:'11-e3',tx:'Tijdsbeheer geoefend: 2 min per vraag'}]}]},
-{n:12,ph:'Examen',pc:'#3B6D11',pb:'#EAF3DE',t:'Finale voorbereiding & examen',h:'4\u20136 uur studie',ms:'EXAMENWEEK',mods:[],sk:null,sc:null,ex:'Alleen herhaling. Per module titel: kun je de kern in 2 zinnen benoemen?',cp:'Je bent klaar. Vertrouw op 11 weken voorbereiding.',cl:[{tt:'48 uur voor het examen',it:[{id:'12-v1',tx:'Examenvoucher en locatie / link gecontroleerd'},{id:'12-v2',tx:'MCRA referentie-architecturen doorgelopen'},{id:'12-v3',tx:'Zero Trust 7 pijlers + apr 2026 updates herlezen'},{id:'12-v4',tx:'Governance mapping herlezen: CAF \u2192 NIST \u2192 CIS \u2192 controls'},{id:'12-v5',tx:'Zwakste domein: 5 kernpunten opschrijven zonder notes'},{id:'12-v6',tx:'Geen nieuwe stof \u2014 alleen herhaling'}]},{tt:'Examendag',it:[{id:'12-e1',tx:'Alle antwoordopties lezen voor kiezen'},{id:'12-e2',tx:'Twijfelachtige vragen markeren en later terugkomen'},{id:'12-e3',tx:'Case-study: hele case lezen voor eerste vraag'},{id:'12-e4',tx:'Tijdsbeheer bewaken: ~2 min per vraag'}]},{tt:'Klaar!',it:[{id:'12-x1',tx:'Examen gedaan! Gefeliciteerd \ud83c\udf89'}]}]}
-];
-const SKEY='sc100_v5';
-let SS={};try{SS=JSON.parse(localStorage.getItem(SKEY)||'{}');}catch(e){}
-const ssave=()=>{try{localStorage.setItem(SKEY,JSON.stringify(SS));}catch(e){}};
-const ck=id=>SS[id]===true;
-function toggle(id){SS[id]=!SS[id];ssave();paintItem(id);paintWeek(W.find(w=>w.cl.some(s=>s.it.some(i=>i.id===id))));paintTotal();}
-function paintItem(id){const b=document.getElementById('b-'+id),t=document.getElementById('t-'+id);if(!b)return;if(ck(id)){b.classList.add('on');t.classList.add('x');}else{b.classList.remove('on');t.classList.remove('x');}}
-function wkStats(w){let t=0,d=0;w.cl.forEach(s=>s.it.forEach(i=>{t++;if(ck(i.id))d++;}));return{t,d};}
-function paintWeek(w){if(!w)return;const{t,d}=wkStats(w),pct=t?Math.round(d/t*100):0;const bl=document.getElementById('wk-'+w.n),cnt=document.getElementById('wc-'+w.n),bar=document.getElementById('wb-'+w.n),dot=document.getElementById('d-'+w.n);if(bl){if(d===t&&t)bl.classList.add('done');else bl.classList.remove('done');}if(cnt)cnt.textContent=d+'/'+t;if(bar)bar.style.width=pct+'%';if(dot){if(d===t&&t){dot.style.background=w.pc;dot.style.color='#fff';dot.style.borderColor=w.pc;}else if(d>0){dot.style.background='transparent';dot.style.color=w.pc;dot.style.borderColor=w.pc;}else{dot.style.background=w.pb;dot.style.color=w.pc;dot.style.borderColor=w.pc+'60';}}w.cl.forEach((s,si)=>{const el=document.getElementById('sp-'+w.n+'-'+si);if(el){const dn=s.it.filter(i=>ck(i.id)).length;el.textContent=dn+'/'+s.it.length;}});}
-function paintTotal(){let t=0,d=0;W.forEach(w=>{const s=wkStats(w);t+=s.t;d+=s.d;});const pct=t?Math.round(d/t*100):0;document.getElementById('pbar').style.width=pct+'%';document.getElementById('pct').textContent=pct+'%';}
-function tab(n,tot,i){for(let j=0;j<tot;j++){const p=document.getElementById('tp-'+n+'-'+j),b=document.getElementById('tb-'+n+'-'+j);if(p)p.style.display=j===i?'block':'none';if(b){if(j===i)b.classList.add('on');else b.classList.remove('on');}}}
-function acc(n){const body=document.getElementById('bd-'+n),chev=document.getElementById('cv-'+n);body.classList.toggle('open');chev.classList.toggle('open');}
-function go(n){const el=document.getElementById('wk-'+n);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>{if(!document.getElementById('bd-'+n).classList.contains('open'))acc(n);},280);}
-function confirmReset(){if(!confirm('Studieplan voortgang wissen?'))return;Object.keys(SS).forEach(k=>delete SS[k]);ssave();W.forEach(w=>{w.cl.forEach(s=>s.it.forEach(i=>paintItem(i.id)));paintWeek(w);});paintTotal();}
-function render(){
-  document.getElementById('dots').innerHTML=W.map(w=>`<div class="dot" id="d-${w.n}" onclick="go(${w.n})" style="background:${w.pb};color:${w.pc};border-color:${w.pc}60;">W${w.n}</div>`).join('');
-  document.getElementById('weeks').innerHTML=W.map(w=>{
-    const hm=w.mods.length>0,hn=hm&&w.mods.some(m=>m.nw);
-    const tabs=['Actielijst'];if(hm)tabs.push('Modules'+(hn?' \u2736':''));tabs.push('Info');if(w.sc)tabs.push('\ud83e\udde0 Socratisch');
-    const tbns=tabs.map((l,i)=>`<button id="tb-${w.n}-${i}" class="tab-btn${i===0?' on':''}" onclick="tab(${w.n},${tabs.length},${i})">${l}</button>`).join('');
-    const clHtml=w.cl.map((s,si)=>`<div class="cl-sec"><div class="cl-sec-hdr"><span class="cl-sec-title">${s.tt}</span><span class="cl-sec-prog" id="sp-${w.n}-${si}">0/${s.it.length}</span></div>${s.it.map(i=>`<div class="cl-row" onclick="toggle('${i.id}')"><div class="cl-box" id="b-${i.id}"></div><span class="cl-txt" id="t-${i.id}">${i.tx}${i.nw?'<span class="nb">NIEUW</span>':''}</span></div>`).join('')}</div>`).join('');
-    const p0=`<div id="tp-${w.n}-0" class="tab-panel" style="display:block;">${w.ms?`<div class="mflag">&#127919; ${w.ms}</div>`:''}${clHtml}</div>`;
-    const p1=hm?`<div id="tp-${w.n}-1" class="tab-panel" style="display:none;">${w.mods.map(m=>{const lp=LP[m.lp];return`<div class="mod-card"><div class="mod-top"><span class="mod-tag" style="background:${lp.bg};color:${lp.d};">${m.b}</span><span class="mod-name">${m.nm}${m.nw?'<span class="nb">NIEUW APR 2026</span>':''}</span></div><div class="mod-lp" style="color:${lp.c};">${lp.l}</div><div class="mod-desc">${m.ds}</div><div class="mod-focus" style="background:${lp.bg};color:${lp.d};">${m.fc}</div><a href="${m.u}" class="mod-btn" style="background:${lp.bg};color:${lp.d};" target="_blank">Openen in Microsoft Learn &#8599;</a></div>`;}).join('')}</div>`:'';
-    const iIdx=hm?2:1;
-    const pInfo=`<div id="tp-${w.n}-${iIdx}" class="tab-panel" style="display:none;">${w.sk?`<div class="skip-note">&#128256; ${w.sk}</div>`:''}<div class="info-card" style="background:var(--blue-l);"><div class="info-lbl" style="color:var(--blue-d);">Extra lezen</div><div class="info-txt" style="color:var(--blue);">${w.ex}</div></div><div class="info-card" style="background:var(--green-l);"><div class="info-lbl" style="color:var(--green-d);">Checkpoint</div><div class="info-txt" style="color:var(--green);">${w.cp}</div></div></div>`;
-    const pSoc=w.sc?`<div id="tp-${w.n}-${tabs.indexOf('\ud83e\udde0 Socratisch')}" class="tab-panel" style="display:none;"><div style="background:var(--purple-l);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--purple-d);margin-bottom:8px;">&#128221; Note by Claude &middot; ${w.sc.date}</div>${w.sc.items.map(item=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(83,74,183,0.15);font-size:13px;line-height:1.5;color:var(--text);"><span style="color:var(--purple);margin-top:2px;">&#9656;</span><span>${item}</span></div>`).join('')}</div></div>`:'';
-    const panels=[p0];if(hm)panels.push(p1);panels.push(pInfo);if(w.sc)panels.push(pSoc);
-    const{t}=wkStats(w);
-    return`<div class="wk" id="wk-${w.n}"><div class="wk-hdr" onclick="acc(${w.n})"><div class="wk-badge" style="background:${w.pb};color:${w.pc};"><div class="ck"></div>W${w.n}</div><div class="wk-info"><div class="wk-title">${w.t}</div><div class="wk-meta"><span class="wk-hours">${w.h}</span><span class="wk-pill" style="background:${w.pb};color:${w.pc};">${w.ph}</span></div></div><div class="wk-right"><span class="wk-count" id="wc-${w.n}">0/${t}</span><div class="wk-bar"><div class="wk-bar-fill" id="wb-${w.n}" style="background:${w.pc};width:0%;"></div></div><span class="wk-chev" id="cv-${w.n}">&#8964;</span></div></div><div class="wk-body" id="bd-${w.n}"><div class="tab-bar">${tbns}</div>${panels.join('')}</div></div>`;
-  }).join('');
-  W.forEach(w=>{w.cl.forEach(s=>s.it.forEach(i=>paintItem(i.id)));paintWeek(w);});
-  paintTotal();
-  if(window.navigator.standalone){const t=document.getElementById('installTip');if(t)t.style.display='none';}
+(function(){
+const NS="http://www.w3.org/2000/svg";
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+
+/* ===== geometrie (cm): x = oost vanaf linkerwand, y = zuid vanaf tuingevel ===== */
+const ROOM=[[0,0],[457,0],[457,247],[913,247],[913,302],[382,837],[255,837],[255,560],[0,560]];
+const T=18; // muurdikte in tekening
+const WIN=[ // openingen: [x1,y1,x2,y2] op wandlijn
+  {a:[40,0],b:[325,0],k:"raam"},{a:[404,0],b:[457,0],k:"raam"},{a:[457,0],b:[457,46],k:"raam"},
+  {a:[530,247],b:[585,247],k:"raam"},{a:[625,247],b:[845,247],k:"deur2"},{a:[56,560],b:[136,560],k:"deur"}];
+const F={ // indeling v2-A
+  krab:[0,365,50,415], dres:[0,430,42,550], tv:[415,56,457,236], big:[150,190,232,276], small:[205,245,272,316], rug:[70,60,290,350],
+  sofaX:0, sofaY:30
+};
+/* organische Budrio-tafel: afgeronde driehoek binnen kader [x1,y1,x2,y2] (contour globaal) */
+function blobPts(b){const w=b[2]-b[0],h=b[3]-b[1];return [[b[0]-0.04*w,b[1]-0.04*h],[b[0]+1.06*w,b[1]+0.42*h],[b[0]+0.18*w,b[1]+1.05*h]];}
+function blobPath(b){const P=blobPts(b),m=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];const a=m(P[0],P[1]),c=m(P[1],P[2]),e=m(P[2],P[0]);
+  return `M${a} Q${P[1]} ${c} Q${P[2]} ${e} Q${P[0]} ${a}Z`;}
+const RAD=[235,0,320,12];
+const KITCH=[[254,493],[442,493],[442,557],[318,557],[318,835],[254,835]];
+const COL=[455,553,470,568];
+
+/* polygon offset (buitenzijde) */
+function offsetPoly(P,d){const n=P.length,L=[];for(let i=0;i<n;i++){const [x1,y1]=P[i],[x2,y2]=P[(i+1)%n];const dx=x2-x1,dy=y2-y1,l=Math.hypot(dx,dy);const nx=dy/l,ny=-dx/l;L.push([x1-nx*d,y1-ny*d,x2-nx*d,y2-ny*d]);}
+  const out=[];for(let i=0;i<n;i++){const a=L[(i+n-1)%n],b=L[i];const d1x=a[2]-a[0],d1y=a[3]-a[1],d2x=b[2]-b[0],d2y=b[3]-b[1];const den=d1x*d2y-d1y*d2x;const t=((b[0]-a[0])*d2y-(b[1]-a[1])*d2x)/den;out.push([a[0]+t*d1x,a[1]+t*d1y]);}return out;}
+const pstr=P=>"M"+P.map(p=>p.join(",")).join("L")+"Z";
+
+/* bank-geometrie in lokale coördinaten: lengte L langs rug, diepte D. lokaal: u langs rug (0..325), v van rug naar voren (0..174).
+   Divan rechts (gezien van voren) => voor zitter links. */
+const SOFA={L:325,D:174,Dm:105,Wd:120,arm:25,back:25};
+function sofaRects(){ // in lokale u,v; u=0 is het eind van de divan
+  const S=SOFA;return {
+    body:[[0,0],[S.L,0],[S.L,S.Dm],[S.Wd,S.Dm],[S.Wd,S.D],[0,S.D]],
+    back:[0,0,S.L,S.back], arm:[S.L-S.arm,0,S.L,S.Dm], backArm:[0,0,S.arm+5,S.back],
+    seats:[[S.Wd,S.back,(S.Wd+S.L-S.arm)/2,S.Dm],[(S.Wd+S.L-S.arm)/2,S.back,S.L-S.arm,S.Dm]],
+    divan:[0,S.back,S.Wd,S.D]
+  };}
+/* plaatsing: dir = kijkrichting zitter. Plaats (x0,y0) = linkerbovenhoek van omhullende in plan. */
+function sofaToPlan(dir,x0,y0){
+  // geeft functie lokale(u,v)->plan(x,y)
+  if(dir==="E") return (u,v)=>[x0+v,y0+u];          // rug west, divan noord (u=0 noord)
+  if(dir==="W") return (u,v)=>[x0+174-v,y0+325-u];  // rug oost, divan zuid
+  return (u,v)=>[x0+u,y0+v];
 }
-const PCFG={defFocus:25,defBreak:5,xpPer:50,lvThresh:[0,100,250,450,700,1000,1400,1900,2500,3200,4000],lvNames:['Novice','Apprentice','Initiate','Scholar','Adept','Specialist','Expert','Architect','Master','Grand Master','Legend'],key:'sc100_pom_v1'};
-let PS={xp:0,level:0,streak:0,lastDate:null,totalSes:0,totalMin:0,history:[],prefs:{f:25,b:5},cycle:0};
-try{const r=localStorage.getItem(PCFG.key);if(r)PS=JSON.parse(r);}catch(e){}
-const psave=()=>{try{localStorage.setItem(PCFG.key,JSON.stringify(PS));}catch(e){}};
-let PT={mode:'focus',running:false,secLeft:0,total:0,focMin:PS.prefs.f||25,brkMin:PS.prefs.b||5,iv:null};
-function pdToday(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function pdWkdBetween(a,b){const s=new Date(a+'T00:00:00'),e=new Date(b+'T00:00:00');let c=0,cur=new Date(s);cur.setDate(cur.getDate()+1);while(cur<e){const dw=cur.getDay();if(dw!==0&&dw!==6)c++;cur.setDate(cur.getDate()+1);}return c;}
-function pdFmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
-function pdFmtH(m){const h=Math.floor(m/60),r=m%60;return h>0?`${h}h${r>0?' '+r+'m':''}`:r+'m';}
-function pdXpProg(){const t=PCFG.lvThresh,l=PS.level,cur=t[l]||0,nxt=t[l+1]||(t[t.length-1]+1000);const pct=Math.min(((PS.xp-cur)/(nxt-cur))*100,100);return{cur:PS.xp-cur,need:nxt-cur,pct:Math.round(pct)};}
-function pdRecalcLv(){let lv=0;PCFG.lvThresh.forEach((v,i)=>{if(PS.xp>=v)lv=i;});PS.level=Math.min(lv,PCFG.lvNames.length-1);}
-function pdLvName(){return PCFG.lvNames[PS.level]||'Legend';}
-function pdComplete(){const today=pdToday(),prev=PS.level;const xpG=PCFG.xpPer+Math.floor(PT.focMin/25)*10;PS.xp+=xpG;pdRecalcLv();const lvUp=PS.level>prev;if(!PS.lastDate){PS.streak=1;}else if(PS.lastDate===today){}else{const missed=pdWkdBetween(PS.lastDate,today);if(missed===0)PS.streak+=1;else PS.streak=1;}PS.lastDate=today;PS.totalSes+=1;PS.totalMin+=PT.focMin;PS.cycle=(PS.cycle+1)%4;const ex=PS.history.find(h=>h.date===today);if(ex)ex.count+=1;else{PS.history.push({date:today,count:1});if(PS.history.length>30)PS.history.shift();}psave();return{xpG,lvUp};}
-function ptReset(mode){PT.mode=mode;PT.total=PT.secLeft=(mode==='focus'?PT.focMin:PT.brkMin)*60;}
-function ptTick(){PT.secLeft--;pwUpdateTimer();if(PT.secLeft<=0){clearInterval(PT.iv);PT.running=false;const done=PT.mode;if(done==='focus'){const{xpG,lvUp}=pdComplete();pwShowToast(xpG,lvUp);pwUpdateStats();pdNotif('\u2694\ufe0f Sessie afgerond!',`+${xpG} XP verdiend. Tijd voor rust.`);}else{pdNotif('\ud83d\udee1\ufe0f Pauze voorbij!','Terug naar de strijd. Blijf gefocust!');}ptReset(done==='focus'?'break':'focus');pwSetBtns(false);pwUpdateTimer();}}
-function ptStart(){if(PT.running)return;PT.running=true;PT.iv=setInterval(ptTick,1000);}
-function ptPause(){if(!PT.running)return;PT.running=false;clearInterval(PT.iv);}
-function ptResetBtn(){ptPause();ptReset(PT.mode);pwSetBtns(false);pwUpdateTimer();}
-function pwSetBtns(r){document.getElementById('pw-start').style.display=r?'none':'';document.getElementById('pw-pause').style.display=r?'':'none';}
-function pwUpdateTimer(){const CIRC=2*Math.PI*52;const prog=PT.total>0?(PT.total-PT.secLeft)/PT.total:0;const rf=document.getElementById('pw-rfill');if(rf){rf.style.strokeDashoffset=CIRC*(1-prog);rf.setAttribute('class','pw-rfill'+(PT.mode==='break'?' bm':''));}const dg=document.getElementById('pw-digits');if(dg){dg.textContent=pdFmt(PT.secLeft);dg.className='pw-digits';}const pt2=document.getElementById('pw-pill-time');if(pt2)pt2.textContent=pdFmt(PT.secLeft);const bg=document.getElementById('pw-badge');if(bg){bg.textContent=PT.mode==='focus'?'\u2694 FOCUS':'\u2615 PAUZE';bg.className='pw-badge '+(PT.mode==='focus'?'f':'b');}const pw=document.getElementById('pw');if(pw){pw.classList.toggle('pa',PT.mode==='focus'&&PT.running);pw.classList.toggle('pb',PT.mode==='break'&&PT.running);}const sl=document.getElementById('pw-slbl');if(sl)sl.textContent='SESSIE '+PS.totalSes;document.title=`${pdFmt(PT.secLeft)} [${PT.mode==='focus'?'FOCUS':'PAUZE'}] \u2014 SC-100`;}
-function pwUpdateStats(){const xp=pdXpProg();const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};setText('pw-lv','LV '+PS.level);setText('pw-xptxt',xp.cur+' / '+xp.need+' XP');const xb=document.getElementById('pw-xpbar');if(xb)xb.style.width=xp.pct+'%';setText('pw-streak',PS.streak);setText('pw-tot',PS.totalSes);setText('pw-hrs',pdFmtH(PS.totalMin));for(let i=0;i<4;i++){const d=document.getElementById('pw-sd'+i);if(d){if(i<PS.cycle)d.classList.add('on');else d.classList.remove('on');}}setText('pd-ses',PS.totalSes);setText('pd-hrs',pdFmtH(PS.totalMin));setText('pd-str',PS.streak);setText('pd-xp',PS.xp);setText('pd-lvname','LV '+PS.level+' \u00b7 '+pdLvName());setText('pd-lvxp',xp.cur+' / '+xp.need+' XP');const df=document.getElementById('pd-xpfill');if(df)df.style.width=xp.pct+'%';pwUpdateChart();}
-function pwUpdateChart(){const bars=document.getElementById('pd-bars');if(!bars)return;const data=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const day=['\u30be','\u30de','\u30c7\u30a3','\u30c9\u30cb\u30f3','\u30c9\u30f3','\u30f4\u30ea\u30b8','\u30b6\u30c8'][d.getDay()];const f=PS.history.find(h=>h.date===ds);data.push({day,count:f?f.count:0,today:i===0});}const mx=Math.max(...data.map(d=>d.count),1);bars.innerHTML=data.map(d=>{const hp=Math.max((d.count/mx)*100,d.count>0?8:3);return`<div class="pd-col"><div class="pd-cv${d.today?' td':''}">${d.count||''}</div><div class="pd-bar${d.today?' td':''}" style="height:${hp}%"></div><div class="pd-day">${d.day}</div></div>`;}).join('');}
-function pwShowToast(xp,lvUp){const pw=document.getElementById('pw');const rect=pw?pw.getBoundingClientRect():{top:200,right:window.innerWidth-32};const el=document.createElement('div');el.className='pw-toast';el.textContent='+'+xp+' XP';el.style.cssText='right:'+(window.innerWidth-rect.right+8)+'px;bottom:'+(window.innerHeight-rect.top+8)+'px;';document.body.appendChild(el);setTimeout(()=>el.remove(),2000);if(pw){pw.style.transform='scale(1.04)';setTimeout(()=>{pw.style.transform='';},250);}if(lvUp){const lu=document.createElement('div');lu.className='pw-lvup';lu.innerHTML=`<div class="pw-lvup-box"><div class="pw-lvup-t">LEVEL UP!</div><div class="pw-lvup-s">LV ${PS.level} \u00b7 ${pdLvName()}</div></div>`;document.body.appendChild(lu);setTimeout(()=>lu.remove(),2800);}}
-let pNotifOk=false;
-async function pdNotifReq(){if(!('Notification'in window))return;if(Notification.permission==='granted'){pNotifOk=true;}else if(Notification.permission!=='denied'){const p=await Notification.requestPermission();pNotifOk=p==='granted';}const nb=document.getElementById('pw-notif');if(nb)nb.textContent=pNotifOk?'\ud83d\udd14':'\ud83d\udd15';}
-function pdNotif(t,b){if(pNotifOk)try{new Notification(t,{body:b});}catch(e){}}
-let pwSetOpen=false;
-function pwToggleSet(){pwSetOpen=!pwSetOpen;const s=document.getElementById('pw-set');if(s)s.className='pw-set'+(pwSetOpen?' open':'');}
-function pwApplySet(){const f=parseInt(document.getElementById('pw-sf').value)||25;const b=parseInt(document.getElementById('pw-sb').value)||5;PT.focMin=Math.min(Math.max(f,1),90);PT.brkMin=Math.min(Math.max(b,1),30);PS.prefs={f:PT.focMin,b:PT.brkMin};psave();ptPause();ptReset(PT.mode);pwSetBtns(false);pwUpdateTimer();pwToggleSet();}
-let pwMini=false;
-function pwToggleMini(){pwMini=!pwMini;const pw=document.getElementById('pw');if(pw)pw.classList.toggle('mini',pwMini);}
-function pwInitDrag(){const h=document.getElementById('pw-drag'),pw=document.getElementById('pw');if(!h||!pw)return;let sx,sy,sr,sb;const move=e=>{const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;pw.style.right=Math.max(0,sr-(cx-sx))+'px';pw.style.bottom=Math.max(0,sb-(cy-sy))+'px';};const up=()=>{document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);document.removeEventListener('touchmove',move);document.removeEventListener('touchend',up);};const down=e=>{const r=pw.getBoundingClientRect();sx=e.touches?e.touches[0].clientX:e.clientX;sy=e.touches?e.touches[0].clientY:e.clientY;sr=window.innerWidth-r.right;sb=window.innerHeight-r.bottom;document.addEventListener('mousemove',move);document.addEventListener('mouseup',up);document.addEventListener('touchmove',move,{passive:true});document.addEventListener('touchend',up);};h.addEventListener('mousedown',down);h.addEventListener('touchstart',down,{passive:true});}
-function pwInitEvents(){document.getElementById('pw-start').addEventListener('click',()=>{ptStart();pwSetBtns(true);pdNotifReq();});document.getElementById('pw-pause').addEventListener('click',()=>{ptPause();pwSetBtns(false);});document.getElementById('pw-reset').addEventListener('click',ptResetBtn);document.getElementById('pw-setbtn').addEventListener('click',pwToggleSet);document.getElementById('pw-sapply').addEventListener('click',pwApplySet);document.getElementById('pw-minbtn').addEventListener('click',pwToggleMini);document.getElementById('pw-notif').addEventListener('click',pdNotifReq);}
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
-render();ptReset('focus');
-document.getElementById('pw-sf').value=PT.focMin;
-document.getElementById('pw-sb').value=PT.brkMin;
-pwUpdateTimer();pwUpdateStats();pwSetBtns(false);
-pwInitDrag();pwInitEvents();
-if(window.navigator.standalone){const t=document.getElementById('installTip');if(t)t.style.display='none';}
+
+/* ===== tekenfuncties ===== */
+function drawRoom(svg,opts){
+  const g=el("g",{},svg);
+  // context vlak eethoek/keuken
+  el("path",{d:pstr(ROOM),fill:css("--sheet"),stroke:"none"},g);
+  el("path",{d:"M457,247L913,247L913,302L382,837L255,837L255,560L457,560Z",fill:css("--ctx")},g);
+  // muren
+  const outer=offsetPoly(ROOM,-T);
+  el("path",{d:pstr(outer)+pstr(ROOM.slice().reverse()),fill:css("--wall"),"fill-rule":"evenodd"},g);
+  // openingen
+  WIN.forEach(w=>{const [x1,y1]=w.a,[x2,y2]=w.b;const hor=y1===y2;
+    const r=hor?{x:x1,y:y1-(y1===0||y1===247?T:0),width:x2-x1,height:T}:{x:x1,y:y1,width:T,height:y2-y1};
+    el("rect",Object.assign({fill:css("--sheet")},r),g);
+    if(w.k==="raam"){ if(hor){[r.y+T*0.35,r.y+T*0.65].forEach(yy=>el("line",{x1:x1,y1:yy,x2:x2,y2:yy,stroke:css("--wall"),"stroke-width":1.5},g));}
+      else{[r.x+T*0.35,r.x+T*0.65].forEach(xx=>el("line",{x1:xx,y1:y1,x2:xx,y2:y2,stroke:css("--wall"),"stroke-width":1.5},g));}}
+    if(w.k==="deur"){ el("path",{d:`M${x1},${y1} L${x1},${y1-80} A80,80 0 0 1 ${x2},${y1}`,fill:"none",stroke:css("--muted"),"stroke-width":1.2,"stroke-dasharray":"5 4"},g);}
+    if(w.k==="deur2"){const m=(x1+x2)/2;el("path",{d:`M${x1},${y1-T} L${x1},${y1-T-110} A110,110 0 0 1 ${m},${y1-T} M${x2},${y1-T} L${x2},${y1-T-110} A110,110 0 0 0 ${m},${y1-T}`,fill:"none",stroke:css("--muted"),"stroke-width":1.2},g);}
+  });
+  // radiator
+  el("rect",{x:RAD[0],y:RAD[1],width:RAD[2]-RAD[0],height:RAD[3],fill:"none",stroke:css("--muted"),"stroke-width":1.5},g);
+  // keuken
+  el("path",{d:pstr(KITCH),fill:css("--sheet"),stroke:css("--muted"),"stroke-width":1.5},g);
+  el("rect",{x:COL[0],y:COL[1],width:COL[2]-COL[0],height:COL[3]-COL[1],fill:css("--wall")},g);
+  if(opts&&opts.labels){
+    const tl=(x,y,t,s,c,a)=>el("text",{x,y,"font-size":s||15,fill:c||css("--muted"),"text-anchor":a||"middle"},g,t);
+    tl(182,-34,"TUIN · groot raam ≈ 40–325",14);
+    tl(430,-34,"hoekraam",14);
+    tl(735,110,"tuindeuren (eethoek)",14);
+    tl(680,420,"EETHOEK",18);
+    tl(360,700,"KEUKEN",18);
+    tl(348,530,"kookeiland ≈",13);
+    tl(330,32,"radiator ≈",12,null,"start");
+    tl(96,610,"entree",14);
+    tl(96,628,"deur ≈ 56–136",12);
+  }
+  return g;
+}
+function drawSofa(g,dir,x0,y0,bad){
+  const R=sofaRects(),f=sofaToPlan(dir,x0,y0);
+  const poly=P=>pstr(P.map(p=>f(p[0],p[1])));
+  const rect=(r)=>poly([[r[0],r[1]],[r[2],r[1]],[r[2],r[3]],[r[0],r[3]]]);
+  const fill=css("--sofa"),ink=css("--sofa-ink");
+  el("path",{d:poly(R.body),fill:fill,stroke:ink,"stroke-width":2},g);
+  el("path",{d:rect(R.back),fill:"none",stroke:ink,"stroke-width":1.2},g);
+  el("path",{d:rect(R.arm),fill:"none",stroke:ink,"stroke-width":1.2},g);
+  el("path",{d:rect(R.backArm),fill:"none",stroke:ink,"stroke-width":1.2},g);
+  R.seats.forEach(s=>el("path",{d:rect(s),fill:"none",stroke:ink,"stroke-width":1,"stroke-dasharray":"4 3"},g));
+  el("path",{d:rect(R.divan),fill:"none",stroke:ink,"stroke-width":1.2},g);
+  if(bad)el("path",{d:rect([0,0,325,12]),fill:css("--warn"),"fill-opacity":.8},g);
+  return f;
+}
+function rectEl(g,r,fill,stroke,extra){return el("rect",Object.assign({x:r[0],y:r[1],width:r[2]-r[0],height:r[3]-r[1],fill,stroke:stroke||"none","stroke-width":1.5},extra||{}),g);}
+function krab(g,r){rectEl(g,r,css("--cat"),null,{"fill-opacity":.85});const cx=(r[0]+r[2])/2,cy=(r[1]+r[3])/2;el("circle",{cx,cy,r:9,fill:css("--sheet")},g);el("circle",{cx,cy,r:9,fill:"none",stroke:css("--cat"),"stroke-width":2},g);}
+function arrowDefs(svg){const d=el("defs",{},svg);
+  const m=el("marker",{id:svg.id+"-ar",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto-start-reverse"},d);el("path",{d:"M0,0L10,5L0,10Z",fill:css("--route")},m);
+  const t=el("marker",{id:svg.id+"-tk",viewBox:"0 0 10 10",refX:5,refY:5,markerWidth:8,markerHeight:8,orient:"auto"},d);el("path",{d:"M2,8L8,2",stroke:css("--ink"),"stroke-width":1.4},t);}
+function dim(g,svgId,x1,y1,x2,y2,label,off,est){ // maatlijn met tekst
+  const c=css("--ink");el("line",{x1,y1,x2,y2,stroke:c,"stroke-width":1,"marker-start":`url(#${svgId}-tk)`,"marker-end":`url(#${svgId}-tk)`},g);
+  const mx=(x1+x2)/2,my=(y1+y2)/2,hor=Math.abs(y2-y1)<Math.abs(x2-x1);
+  const o=off||0;const tx=hor?mx:mx+(o||-8),ty=hor?my-(o||6):my;
+  const t=el("text",{x:tx,y:ty,"font-size":14,"font-family":"IBM Plex Mono, monospace",fill:est?css("--warn"):c,"text-anchor":hor?"middle":(o>0?"start":"end"),"dominant-baseline":hor?"auto":"middle","paint-order":"stroke",stroke:css("--sheet"),"stroke-width":4},g,label);
+  return t;}
+function route(g,svgId,pts){el("polyline",{points:pts.map(p=>p.join(",")).join(" "),fill:"none",stroke:css("--route"),"stroke-width":4,"stroke-dasharray":"12 8","stroke-linecap":"round","stroke-linejoin":"round","marker-end":`url(#${svgId}-ar)`,opacity:.9},g);}
+function label(g,x,y,t,size,color,weight,anchor,plain){const a={x,y,"font-size":size||15,fill:color||css("--ink"),"font-weight":weight||600,"text-anchor":anchor||"middle"};if(!plain)Object.assign(a,{"paint-order":"stroke",stroke:css("--sheet"),"stroke-width":3});return el("text",a,g,t);}
+
+/* ===== hoofdplattegrond ===== */
+function drawPlan(){
+  const svg=document.getElementById("plan");svg.innerHTML="";arrowDefs(svg);
+  drawRoom(svg,{labels:true});
+  const g=el("g",{},svg);
+  rectEl(g,F.rug,"none",css("--line"),{"stroke-dasharray":"2 5","stroke-width":2});
+  drawSofa(g,"E",F.sofaX,F.sofaY);
+  krab(g,F.krab);
+  rectEl(g,F.dres,css("--store"));
+  rectEl(g,F.tv,css("--store"));
+  el("line",{x1:452,y1:73,x2:452,y2:218,stroke:css("--ink"),"stroke-width":5},g);
+  el("path",{d:blobPath(F.big),fill:css("--table"),"fill-opacity":.9},g);
+  el("path",{d:blobPath(F.small),fill:css("--table"),stroke:css("--sheet"),"stroke-width":2},g);
+  // labels
+  label(g,21,490,"BESTÅ 120",13,css("--sheet"),700,"middle",true).setAttribute("transform","rotate(-90 21 490)");
+  label(g,58,394,"krabpaal",14,css("--cat"),700,"start");
+  label(g,430,146,"BESTÅ 180 zwevend",12,css("--sheet"),700,"middle",true).setAttribute("transform","rotate(90 430 146)");
+  label(g,445,250,"tv 65″",12,css("--ink"),600,"end");
+  label(g,95,95,"DIVAN",17,css("--sofa-ink"),800,"middle",true);
+  label(g,62,262,"2-zits",15,css("--sofa-ink"),700,"middle",true).setAttribute("transform","rotate(-90 62 262)");
+  label(g,190,300,"Budrio",12,css("--sheet"),700,"middle",true);
+  label(g,184,124,"Haco Jet 325 × 174",13,css("--sofa-ink"),700,"start");
+  el("line",{x1:285,y1:205,x2:395,y2:205,stroke:css("--sofa-ink"),"stroke-width":2,"marker-end":`url(#plan-ar)`,opacity:.6},g);
+  // routes
+  route(g,"plan",[[96,600],[96,470],[180,430],[620,430]]);
+  route(g,"plan",[[640,340],[350,340],[350,62]]);
+  label(g,500,452,"hoofdroute ≥ 138",13,css("--route"),600);
+  // maten kamer
+  const d=el("g",{},svg);
+  dim(d,"plan",0,-80,457,-80,"457",10);
+  dim(d,"plan",-75,0,-75,560,"560",-8);
+  dim(d,"plan",500,0,500,247,"247",8);
+  // maten indeling
+  dim(d,"plan",-30,0,-30,30,"30",-8);
+  dim(d,"plan",-30,30,-30,355,"325",-8);
+  dim(d,"plan",-30,415,-30,430,"15",-8);
+  dim(d,"plan",-30,430,-30,550,"120",-8);
+  dim(d,"plan",105,233,150,233,"45",8);
+  dim(d,"plan",272,290,415,290,"143",8);
+  dim(d,"plan",250,355,250,493,"≈138",8,true);
+  dim(d,"plan",165,150,165,190,"40",8);
+  dim(d,"plan",400,46,400,56,"10",-8);
+  dim(d,"plan",400,236,400,247,"11",-8);
+  dim(d,"plan",42,520,56,520,"14",10,true);
+  // noordpijl
+  const n=el("g",{transform:"translate(880,-60)"},svg);el("path",{d:"M0,-28L10,8L0,2L-10,8Z",fill:css("--ink")},n);el("text",{x:0,y:28,"font-size":14,"text-anchor":"middle",fill:css("--ink")},n,"tuin");
+  // schaalbalk
+  const s=el("g",{transform:"translate(620,820)"},svg);[0,1,2].forEach(i=>el("rect",{x:i*100,y:0,width:100,height:8,fill:i%2?css("--sheet"):css("--ink"),stroke:css("--ink")},s));
+  el("text",{x:0,y:28,"font-size":13,fill:css("--ink")},s,"0");el("text",{x:300,y:28,"font-size":13,fill:css("--ink"),"text-anchor":"end"},s,"3 m");
+}
+
+/* ===== oriëntatie-uitleg ===== */
+function drawOrient(){
+  const svg=document.getElementById("orientA");svg.innerHTML="";arrowDefs(svg);
+  const g=el("g",{transform:"translate(18,30) scale(0.62)"},svg);
+  // bank met rug boven, voorkant onder; divan rechts gezien van onder
+  const R=sofaRects(); const f=(u,v)=>[325-u,v]; // u=0 divan -> rechts in tekening
+  const poly=P=>pstr(P.map(p=>f(p[0],p[1])));const rect=r=>poly([[r[0],r[1]],[r[2],r[1]],[r[2],r[3]],[r[0],r[3]]]);
+  el("path",{d:poly(R.body),fill:css("--sofa"),stroke:css("--sofa-ink"),"stroke-width":2.5},g);
+  el("path",{d:rect(R.back),fill:"none",stroke:css("--sofa-ink"),"stroke-width":1.5},g);
+  el("path",{d:rect(R.arm),fill:"none",stroke:css("--sofa-ink"),"stroke-width":1.5},g);
+  el("path",{d:rect(R.divan),fill:"none",stroke:css("--sofa-ink"),"stroke-width":1.5},g);
+  label(g,250,120,"DIVAN",20,css("--sofa-ink"),800,"middle",true);label(g,160,16,"rug",16,css("--sofa-ink"),600,"middle",true);
+  // persoon voor bank
+  el("circle",{cx:160,cy:258,r:14,fill:css("--route")},g);
+  el("path",{d:"M160,236 L160,190",stroke:css("--route"),"stroke-width":3,"marker-end":`url(#orientA-ar)`},g);
+  label(g,182,262,"je staat ervoor: divan rechts ✓",19,css("--route"),700,"start");
+  // zitter
+  el("circle",{cx:110,cy:70,r:12,fill:css("--ink")},g);el("path",{d:"M110,84 L110,112",stroke:css("--ink"),"stroke-width":3,"marker-end":`url(#orientA-ar)`},g);
+  label(g,0,212,"● zit je erop (kijkt omlaag): divan aan je linkerhand",17,css("--ink"),700,"start");
+  el("text",{x:0,y:-12,"font-size":17,fill:css("--muted")},g,"Bovenaanzicht Haco Jet C0035131_2 (325 × 174)");
+}
+
+/* ===== mini-opties ===== */
+function drawMini(svg){
+  const o=svg.dataset.opt;svg.innerHTML="";svg.id="mini"+o;arrowDefs(svg);
+  const cl=el("clipPath",{id:"clip"+o},svg.querySelector("defs"));el("rect",{x:-30,y:-40,width:540,height:640},cl);
+  const root=el("g",{"clip-path":`url(#clip${o})`},svg);
+  drawRoom(root,{labels:false});
+  const g=el("g",{},root);
+  if(o==="A"){drawSofa(g,"E",0,30);krab(g,F.krab);rectEl(g,F.dres,css("--store"));rectEl(g,F.tv,css("--store"));
+    el("path",{d:blobPath(F.big),fill:css("--table")},g);el("path",{d:blobPath(F.small),fill:css("--table"),stroke:css("--sheet"),"stroke-width":2},g);
+    route(g,svg.id,[[96,600],[96,470],[180,430],[470,430]]);}
+  if(o==="B"){drawSofa(g,"E",0,30);rectEl(g,[0,370,42,490],css("--store"));krab(g,[0,500,50,550]);rectEl(g,F.tv,css("--store"));
+    el("path",{d:blobPath(F.big),fill:css("--table")},g);el("path",{d:blobPath(F.small),fill:css("--table"),stroke:css("--sheet"),"stroke-width":2},g);
+    label(g,150,535,"6 cm tot deur",18,css("--warn"),800,"start");}
+  if(o==="C"){rectEl(g,[0,160,45,340],css("--store"));krab(g,[10,10,60,60]);rectEl(g,[417,75,457,235],css("--store"));drawSofa(g,"E",135,45,true);
+    label(g,170,400,"rug vrij → krabben",20,css("--warn"),800,"start");}
+}
+
+/* ===== 3D ===== */
+let three=null;
+function build3D(){
+  if(!window.THREE){document.getElementById("three").replaceWith(Object.assign(document.createElement("p"),{className:"note",textContent:"De 3D-weergave kon niet laden. De plattegrond hierboven toont dezelfde maten."}));return;}
+  const canvas=document.getElementById("three");
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
+  renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0xdfe6ea);
+  const cam=new THREE.PerspectiveCamera(55,16/10,5,6000);
+  const H=260;
+  const M=(c,r)=>new THREE.MeshStandardMaterial({color:c,roughness:r==null?0.85:r});
+  const mats={wall:M(0xf1f1ee),floor:M(0xcdb898,0.7),sofa:M(0xd9ccb6,1),leg:M(0x1a1a1a,0.5),dres:M(0x3d2a1f,0.55),frameB:M(0x1f1a17,0.6),tbl:M(0x2a1c12,0.75),cat:M(0xb89a6e,1),catPlat:M(0xe9e4dc,1),tv:M(0x111111,0.3),tvm:M(0x7d6a58,0.6),table:M(0x2a2a2a,0.5),rug:M(0x9a9c98,1),rad:M(0xf6f6f6,0.4),kit:M(0xfafafa,0.4),top:M(0x3b3532,0.5),glass:new THREE.MeshStandardMaterial({color:0xbfe0f2,transparent:true,opacity:0.18,roughness:0.05}),frame:M(0xfafafa,0.5),ctxFloor:M(0xc3ae8e,0.75)};
+  const box=(w,h,d,x,y,z,m,shadow=true)=>{const me=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);me.position.set(x,y,z);me.castShadow=shadow;me.receiveShadow=true;scene.add(me);return me;};
+  // plan(x,y) -> three(x, z=y)
+  // vloer
+  const shape=new THREE.Shape();ROOM.forEach((p,i)=>i?shape.lineTo(p[0],p[1]):shape.moveTo(p[0],p[1]));
+  mats.floor.side=THREE.DoubleSide;const fl=new THREE.Mesh(new THREE.ShapeGeometry(shape),mats.floor);fl.rotation.x=Math.PI/2;fl.receiveShadow=true;scene.add(fl);
+  // muren met openingen: per wandsegment trapezia (verstek), opgedeeld rond ramen/deuren en per hoogteband geëxtrudeerd
+  const OUT=offsetPoly(ROOM,-T);
+  const ops={0:[[40,325,65,230],[404,457,65,230]],1:[[0,46,65,230]],2:[[73,128,65,230],[168,388,0,215]],7:[[119,199,0,210]]};
+  const prism=(pts,y0,y1,m)=>{if(y1<=y0)return;const sh=new THREE.Shape();pts.forEach((p,i)=>i?sh.lineTo(p[0],p[1]):sh.moveTo(p[0],p[1]));
+    const g=new THREE.ExtrudeGeometry(sh,{depth:y1-y0,bevelEnabled:false});const me=new THREE.Mesh(g,m||mats.wall);me.rotation.x=Math.PI/2;me.position.y=y1;me.castShadow=true;me.receiveShadow=true;scene.add(me);};
+  for(let i=0;i<ROOM.length;i++){
+    const a=ROOM[i],b=ROOM[(i+1)%ROOM.length],oa=OUT[i],ob=OUT[(i+1)%ROOM.length];
+    const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),ux=dx/len,uz=dz/len,nx=dz/len,nz=-dx/len;
+    const P=(s)=>[a[0]+ux*s,a[1]+uz*s];
+    const quad=(s,e)=>{const p1=P(s),p2=P(e);const p4=s<=0?oa:[p1[0]+nx*T,p1[1]+nz*T];const p3=e>=len?ob:[p2[0]+nx*T,p2[1]+nz*T];return [p1,p2,p3,p4];};
+    const o=(ops[i]||[]).slice().sort((p,q)=>p[0]-q[0]);let cur=0;
+    o.forEach(([s,e,lo,hi])=>{prism(quad(cur,s),0,H);prism(quad(s,e),0,lo);prism(quad(s,e),hi,H);
+      const m=P((s+e)/2);const ang=Math.atan2(dz,dx);
+      if(!(i===7)){const gl=new THREE.Mesh(new THREE.PlaneGeometry(e-s,hi-lo),mats.glass);gl.position.set(m[0]+nx*T/2,(lo+hi)/2,m[1]+nz*T/2);gl.rotation.y=-ang;scene.add(gl);
+        if(lo>0){const sill=new THREE.Mesh(new THREE.BoxGeometry(e-s,3,T+6),mats.frame);sill.position.set(m[0]+nx*T/2,lo+1.5,m[1]+nz*T/2);sill.rotation.y=-ang;sill.receiveShadow=true;scene.add(sill);}}
+      cur=e;});
+    prism(quad(cur,len),0,H);
+  }
+  // radiator, keuken, kolom
+  box(RAD[2]-RAD[0],55,10,(RAD[0]+RAD[2])/2,8+27,6,mats.rad);
+  box(442-318,92,557-493,(318+442)/2,46,(493+557)/2,mats.kit);box(442-318+2,4,557-493+2,(318+442)/2,94,(493+557)/2,mats.top);
+  box(318-254,92,835-493,(254+318)/2,46,(493+835)/2,mats.kit);box(318-254+2,4,835-493+2,(254+318)/2,94,(493+835)/2,mats.top);
+  box(15,H,15,462,H/2,561,mats.wall);
+  // vloerkleed
+  box(F.rug[2]-F.rug[0],1,F.rug[3]-F.rug[1],(F.rug[0]+F.rug[2])/2,0.6,(F.rug[1]+F.rug[3])/2,mats.rug,false);
+  // dressoir BESTÅ 120x42x74 op poten
+  const D=F.dres;box(D[2]-D[0],64,D[3]-D[1],(D[0]+D[2])/2,10+32,(D[1]+D[3])/2,mats.dres);
+  box(1,62,1,D[2]+0.5,42,(D[1]+D[3])/2,mats.frameB,false);
+  [[D[1]+6],[D[3]-6]].forEach(z=>{box(3,10,3,D[0]+6,5,z[0],mats.leg);box(3,10,3,D[2]-6,5,z[0],mats.leg);});
+  // krabpaal
+  const K=F.krab,kx=(K[0]+K[2])/2,kz=(K[1]+K[3])/2;
+  box(50,6,50,kx,3,kz,mats.catPlat);
+  const post=(h,x,z)=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(6,6,h,16),mats.cat);c.position.set(x,h/2,z);c.castShadow=true;scene.add(c);};
+  post(150,kx-10,kz-10);post(105,kx+12,kz+10);
+  box(42,4,42,kx,60,kz,mats.catPlat);box(36,4,36,kx+4,105,kz+4,mats.catPlat);box(40,10,40,kx-6,152,kz-6,mats.catPlat);
+  // tv-meubel BESTÅ 180x42x38 zwevend (onderkant 20)
+  const V=F.tv;box(V[2]-V[0],38,V[3]-V[1],(V[0]+V[2])/2,20+19,(V[1]+V[3])/2,mats.dres);
+  for(let k=1;k<3;k++)box(1,36,1,V[0]-0.5,39,V[1]+(V[3]-V[1])*k/3,mats.frameB,false);
+  // tv 65" aan de muur
+  box(4,83,145,454,75+41.5,(V[1]+V[3])/2,mats.tv);
+  // Budrio-tafels: organisch blad + zwart onderstel
+  const tableMesh=(b,h)=>{const P=blobPts(b);const sh=new THREE.Shape();const m=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
+    const a=m(P[0],P[1]),c=m(P[1],P[2]),e=m(P[2],P[0]);sh.moveTo(a[0],a[1]);sh.quadraticCurveTo(P[1][0],P[1][1],c[0],c[1]);sh.quadraticCurveTo(P[2][0],P[2][1],e[0],e[1]);sh.quadraticCurveTo(P[0][0],P[0][1],a[0],a[1]);
+    const g=new THREE.ExtrudeGeometry(sh,{depth:3,bevelEnabled:false});const me=new THREE.Mesh(g,mats.tbl);me.rotation.x=Math.PI/2;me.position.y=h;me.castShadow=true;me.receiveShadow=true;scene.add(me);
+    const cx=(P[0][0]+P[1][0]+P[2][0])/3,cz=(P[0][1]+P[1][1]+P[2][1])/3;
+    P.forEach(p=>{const lx=cx+(p[0]-cx)*0.62,lz=cz+(p[1]-cz)*0.62;box(2.5,h-3,2.5,lx,(h-3)/2,lz,mats.leg);});};
+  tableMesh(F.big,39);tableMesh(F.small,44);
+  // bank (rug west, divan noord)
+  const S=SOFA,x0=F.sofaX,z0=F.sofaY;
+  const P=(u,v)=>[x0+v,z0+u]; // u langs rug (noord->zuid), v naar voren (oost)
+  const sb=(u1,v1,u2,v2,y0,y1,m)=>{const [ax,az]=P(u1,v1),[bx,bz]=P(u2,v2);return box(Math.abs(bx-ax)-1.2,y1-y0,Math.abs(bz-az)-1.2,(ax+bx)/2,(y0+y1)/2,(az+bz)/2,m||mats.sofa);};
+  // poten
+  [[4,4],[S.L-4,4],[S.L-4,S.Dm-4],[4,S.D-4],[S.Wd-4,S.D-4],[S.Wd,S.Dm-4]].forEach(([u,v])=>{const [x,z]=P(u,v);box(4,8,4,x,4,z,mats.leg);});
+  // basis
+  sb(0,0,S.L,S.Dm,8,30);sb(0,S.Dm,S.Wd,S.D,8,30);
+  // zitblokken (tufted): rij blokken
+  const seatTop=44;
+  const tuftsU=(u1,u2,n,v1,v2)=>{const w=(u2-u1)/n;for(let k=0;k<n;k++)sb(u1+k*w,v1,u1+(k+1)*w,v2,30,seatTop);};
+  tuftsU(S.Wd,S.L-S.arm,4,S.back,S.Dm);
+  for(let r=0;r<3;r++){const v1=S.back+r*(S.D-S.back)/3,v2=S.back+(r+1)*(S.D-S.back)/3;tuftsU(0,S.Wd,2,v1,v2);}
+  // rug blokken in twee lagen
+  const backU=(n,y0,y1,v1,v2)=>{const w=(S.L-S.arm-S.arm)/n;for(let k=0;k<n;k++)sb(S.arm+k*w,v1,S.arm+(k+1)*w,v2,y0,y1);};
+  backU(7,30,60,0,S.back);backU(7,60,82,0,S.back-4);
+  sb(0,0,S.arm,S.back,30,63); // back-arm bij divan
+  sb(S.L-S.arm,0,S.L,S.Dm,30,63); // armleuning
+  // labels
+  const labels=[];
+  const mkLabel=(txt,x,y,z)=>{const c=document.createElement("canvas");c.width=512;c.height=96;const g=c.getContext("2d");g.fillStyle="rgba(31,42,46,.86)";g.fillRect(0,0,512,96);g.fillStyle="#fff";g.font="600 44px Public Sans, system-ui, sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText(txt,256,50);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(80,15,1);sp.position.set(x,y,z);sp.renderOrder=10;scene.add(sp);labels.push(sp);};
+  mkLabel("Haco Jet",60,115,270);mkLabel("Divan",110,80,90);mkLabel("Bestå-dressoir",21,110,490);mkLabel("Krabpaal",25,185,390);mkLabel("Bestå zwevend + tv 65″",430,185,146);mkLabel("Budrio",200,70,250);
+  // licht
+  scene.add(new THREE.HemisphereLight(0xffffff,0xb9a789,0.75));
+  const sun=new THREE.DirectionalLight(0xfff3e0,0.75);sun.position.set(250,520,-700);sun.target.position.set(260,0,280);scene.add(sun.target);
+  sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-700,right:700,top:700,bottom:-700,near:100,far:2400});sun.shadow.bias=-0.0008;scene.add(sun);
+  const fill=new THREE.PointLight(0xfff1dc,0.35,1600);fill.position.set(250,240,300);scene.add(fill);
+  // camera-besturing (bolcoördinaten rond doel)
+  const st={tx:0,ty:0,tz:0,r:600,th:0,ph:1};
+  const views={
+    eet:{pos:[740,165,455],tgt:[120,60,220]},
+    entree:{pos:[150,165,548],tgt:[200,70,120]},
+    bank:{pos:[70,112,240],tgt:[457,105,150]},
+    top:{pos:[300,1050,420],tgt:[300,0,330]}};
+  function setView(v){const p=views[v].pos,t=views[v].tgt;st.tx=t[0];st.ty=t[1];st.tz=t[2];const dx=p[0]-t[0],dy=p[1]-t[1],dz=p[2]-t[2];st.r=Math.hypot(dx,dy,dz);st.ph=Math.acos(dy/st.r);st.th=Math.atan2(dx,dz);apply();}
+  function apply(){st.ph=Math.max(0.05,Math.min(1.53,st.ph));st.r=Math.max(120,Math.min(1600,st.r));
+    cam.position.set(st.tx+st.r*Math.sin(st.ph)*Math.sin(st.th),st.ty+st.r*Math.cos(st.ph),st.tz+st.r*Math.sin(st.ph)*Math.cos(st.th));cam.lookAt(st.tx,st.ty,st.tz);render();}
+  function size(){const w=canvas.clientWidth,h=canvas.clientHeight;if(!w)return;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();render();}
+  function render(){renderer.render(scene,cam);}
+  let drag=null;
+  canvas.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);canvas.style.cursor="grabbing";});
+  canvas.addEventListener("pointermove",e=>{if(!drag)return;st.th-=(e.clientX-drag.x)*0.006;st.ph-=(e.clientY-drag.y)*0.006;drag={x:e.clientX,y:e.clientY};apply();});
+  const end=()=>{drag=null;canvas.style.cursor="grab";};canvas.addEventListener("pointerup",end);canvas.addEventListener("pointercancel",end);
+  canvas.addEventListener("wheel",e=>{e.preventDefault();st.r*=Math.exp(e.deltaY*0.001);apply();},{passive:false});
+  new ResizeObserver(size).observe(canvas);
+  const btn={eet:"v-eet",entree:"v-entree",bank:"v-bank",top:"v-top"};
+  Object.entries(btn).forEach(([k,id])=>document.getElementById(id).addEventListener("click",()=>{Object.values(btn).forEach(j=>document.getElementById(j).setAttribute("aria-pressed",j===id?"true":"false"));setView(k);}));
+  const lb=document.getElementById("v-labels");lb.addEventListener("click",()=>{const on=lb.getAttribute("aria-pressed")!=="true";lb.setAttribute("aria-pressed",on);labels.forEach(l=>l.visible=on);render();});
+  size();setView("eet");
+  three={setView,render};window.__wk=three;
+}
+
+function drawAll(){drawPlan();drawOrient();document.querySelectorAll("svg.mini").forEach(drawMini);}
+drawAll();
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",drawAll);}catch(e){}
+new MutationObserver(drawAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+try{build3D();}catch(e){console.error(e);}
+})();
 </script>
+
 </body>
 </html>
