@@ -12,15 +12,15 @@
 /* Layout: één kolom als bouwtekening-dossier; plattegrond is de held, daarna 3D, opties, analyse, controle */
 :root{
   --paper:#f3f4f1; --sheet:#ffffff; --ink:#1f2a2e; --muted:#5d686c; --line:#c9cfcc;
-  --wall:#2b3438; --sofa:#c9a978; --sofa-ink:#7a5a2b; --route:#2f6fb0; --table:#4a3527; --cat:#3e8a5c; --store:#5a3f2e; --warn:#b4532a; --ok:#2f7a4c; --ctx:#e6e8e4;
+  --wall:#2b3438; --sofa:#c9a978; --sofa-ink:#7a5a2b; --route:#2f6fb0; --table:#4a3527; --dine:#6e4a2e; --chair:#4b5256; --cat:#3e8a5c; --store:#5a3f2e; --warn:#b4532a; --ok:#2f7a4c; --ctx:#e6e8e4;
   --f-display:"Archivo","Arial Narrow",system-ui,sans-serif; --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#151a1c; --sheet:#1d2427; --ink:#e4e8e6; --muted:#9aa5a8; --line:#3a4448;
-  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}}
+  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --dine:#a57c5a; --chair:#8d969a; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#151a1c; --sheet:#1d2427; --ink:#e4e8e6; --muted:#9aa5a8; --line:#3a4448;
-  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}
+  --wall:#cfd6d4; --sofa:#a88b5f; --sofa-ink:#e6cfa6; --route:#6aa5e0; --table:#9a7a62; --dine:#a57c5a; --chair:#8d969a; --cat:#6cc08d; --store:#b08c70; --warn:#e48a62; --ok:#6cc08d; --ctx:#262e31; color-scheme:dark}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
 .wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:grid;gap:44px}
 h1,h2,h3{font-family:var(--f-display);font-stretch:85%;text-wrap:balance;margin:0;line-height:1.1}
@@ -78,9 +78,9 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
 <div class="wrap">
 
 <header style="display:grid;gap:14px">
-  <div class="eyebrow">Verhuizing · woonkamer · ontwerp v3 · schaal 1 cm = 1 eenheid</div>
+  <div class="eyebrow">Verhuizing · woonkamer · ontwerp v4 · schaal 1 cm = 1 eenheid</div>
   <h1>Nieuwe indeling woonkamer met de Haco Jet</h1>
-  <p class="lede">De bank staat met de rug tegen de linkerwand in de hoek, met de divan bij het raam. Daarachter kan de kat niet bij de bank. Op dezelfde wand staan de krabpaal, direct naast de armleuning, en een donkerbruin Bestå-dressoir bij de entree. Op de korte buitenmuur hangt een zwevend Bestå-tv-meubel in dezelfde kleur. De Budrio-salontafels staan voor de bank, en de witte Sundvik-ladekast staat tussen de entreedeur en de keuken, op de plek van het oude bureautje.</p>
+  <p class="lede">De bank staat met de rug tegen de linkerwand in de hoek, met de divan bij het raam. Daarachter kan de kat niet bij de bank. Op dezelfde wand staan de krabpaal, direct naast de armleuning, en een donkerbruin Bestå-dressoir bij de entree. Op de korte buitenmuur hangt een zwevend Bestå-tv-meubel in dezelfde kleur. De Budrio-salontafels staan voor de bank, en de witte Sundvik-ladekast staat tussen de entreedeur en de keuken, op de plek van het oude bureautje. In de eethoek staat de ovale James-tafel evenwijdig aan de gevel, met de zes Monaco-stoelen eromheen. De tuindeuren en de doorgang naar de keuken blijven vrij.</p>
   <div class="kpis">
     <div class="kpi"><b>325 × 174</b><span>Haco Jet, rug tegen de wand</span></div>
     <div class="kpi"><b>30 cm</b><span>divan tot de raamwand</span></div>
@@ -88,6 +88,7 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
     <div class="kpi"><b>180 × 42</b><span>Bestå-tv-meubel, zwevend</span></div>
     <div class="kpi"><b>≥ 126 cm</b><span>hoofdlooproute (bank–Sundvik)</span></div>
     <div class="kpi"><b>≈ 4,0 m</b><span>kijkafstand, dus 65 inch</span></div>
+    <div class="kpi"><b>180 × 100</b><span>James-eettafel + 6 Monaco-stoelen</span></div>
   </div>
 </header>
 
@@ -112,6 +113,8 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
     <span><i style="background:var(--cat)"></i>Krabpaal (aanname 50 × 50)</span>
     <span><i style="background:var(--table)"></i>Budrio-salontafels</span>
     <span><i style="background:var(--sheet);border-color:var(--ink)"></i>Sundvik (wit)</span>
+    <span><i style="background:var(--dine)"></i>Eettafel James</span>
+    <span><i style="background:var(--chair)"></i>Monaco-stoel</span>
     <span><i style="background:var(--route);height:3px;border:0;vertical-align:4px"></i>Looproute</span>
     <span><i style="background:var(--ctx)"></i>Eethoek/keuken (context)</span>
   </div>
@@ -126,6 +129,7 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
     <button type="button" id="v-eet" aria-pressed="true">Vanuit de eethoek</button>
     <button type="button" id="v-entree" aria-pressed="false">Vanuit de entreedeur</button>
     <button type="button" id="v-bank" aria-pressed="false">Vanaf de bank</button>
+    <button type="button" id="v-eetk" aria-pressed="false">Eethoek</button>
     <button type="button" id="v-top" aria-pressed="false">Bovenaf</button>
     <button type="button" id="v-labels" aria-pressed="true">Labels</button>
   </div>
@@ -144,6 +148,8 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
       <tr><td>BESTÅ tv-meubel met deuren, zwartbruin Hedeviken / donkerbruin eikenfineer (<a href="https://www.ikea.com/nl/nl/p/besta-tv-meubel-met-deuren-zwartbruin-hedeviken-donkerbruin-eikenfineer-s19422180/" target="_blank" rel="noopener">IKEA</a>)</td><td class="num">180 × 42 × 38</td><td>Zwevend op de korte buitenmuur, onderkant ±20 cm boven de vloer</td><td><span class="st schat">voorstel</span></td></tr>
       <tr><td>BESTÅ opberger met deuren, zwartbruin Hedeviken / Stubbarp / donkerbruin eikenfineer</td><td class="num">120 × 42 × 74</td><td>Linkerwand, tussen de krabpaal en de hoek bij de entree</td><td><span class="st schat">voorstel</span></td></tr>
       <tr><td>SUNDVIK commode/ladekast, wit (<a href="https://www.ikea.com/nl/nl/p/sundvik-commode-ladekast-wit-30591299/" target="_blank" rel="noopener">IKEA</a>)</td><td class="num">78 × 54–79 × 99–108</td><td>Zuidwand tussen entreedeur en keuken, plek van het oude bureautje. Getekend met de maximale diepte van 79 cm</td><td><span class="st zeker">in bezit</span></td></tr>
+      <tr><td>Eettafel James, ovaal, mangohout walnoot, mat zwart metalen onderstel (<a href="https://aq-living.com/products/eettafel-ovaal-mangohout-180cm-james-walnoot-bruin" target="_blank" rel="noopener">AQ-Living</a>)</td><td class="num">180 × 100 × 76</td><td>Eethoek, evenwijdig aan de gevel, midden op ≈ (565, 370)</td><td><span class="st schat">aankoop</span></td></tr>
+      <tr><td>Eetkamerstoel Monaco antraciet, 6× (<a href="https://www.bol.com/be/nl/p/eetkamerstoel-monaco-antraciet/9200000099889948/" target="_blank" rel="noopener">bol</a>)</td><td class="num">53 × 62 × 87 · zit 48</td><td>2 per lange zijde, 1 aan elke kop</td><td><span class="st zeker">in bezit</span></td></tr>
       <tr><td>Krabpaal</td><td class="num">50 × 50 × 150</td><td>Linkerwand, direct naast de armleuning</td><td><span class="st onb">aanname</span></td></tr>
       <tr><td>Tv, 65 inch</td><td class="num">≈ 145 × 83</td><td>Aan de muur boven het tv-meubel</td><td><span class="st schat">advies</span></td></tr>
     </tbody>
@@ -159,6 +165,20 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
     </div>
   </div>
   <p class="note">Prijzen en uitvoeringen zag ik vandaag (27-10-2026) op ikea.com/nl. Volgens IKEA is het tv-meubel geschikt voor een tv tot 72 inch en draagt het bovenblad maximaal 30 kg. Of zwevend ophangen een aparte ophangrail vraagt, zegt de productpagina niet duidelijk. Kijk dat na in de montage-instructie. De draagkracht hangt af van de muur: een buitenmuur van steen is goed, maar gebruik pluggen die bij de muur passen.</p>
+</section>
+
+<section aria-labelledby="h-eet">
+  <div class="eyebrow">Eethoek</div>
+  <h2 id="h-eet">James-tafel met zes Monaco-stoelen</h2>
+  <p>De eethoek is een trapezium. Aan de gevel is hij 456 cm breed, maar door de schuine wand wordt hij richting de keuken steeds smaller. Er moeten drie routes vrij blijven: van de woonkamer naar de keuken (de ingang ligt naast de kolom), naar de tuindeuren, en terug naar de woonkamer. Ik heb de tafel in stappen van 10 cm en onder vijf hoeken doorgerekend. De beste plek is <strong>evenwijdig aan de gevel, iets naar de woonkamer toe</strong>. Een schuine tafel langs de schuine wand of een tafel haaks op de gevel komt de tuindeuren of de keukeningang in.</p>
+  <div class="chk">
+    <div><span class="y">✓</span><span><strong>Zes stoelen passen:</strong> 2 aan elke lange zijde en 1 aan elke kop. Volgens de verkoper is de tafel ‘geschikt voor 4 personen’, en bij een ovaal van 180 zitten de koppen wat smaller. Met zes kan het, maar het is gezellig vol. Voor elke dag zijn vier stoelen aan de lange zijden het ruimst.</span></div>
+    <div><span class="y">✓</span><span><strong>Tuindeuren vrij:</strong> de strook voor de deuren (x ≈ 640–845) blijft helemaal leeg. Je komt er langs de oostkant van de tafel: 80 cm tussen de kopstoel en de schuine wand.</span></div>
+    <div><span class="y">✓</span><span><strong>Keukeningang:</strong> 91 cm tussen de stoel zuidwest en de kolom bij het kookeiland. Zit daar iemand, dan is het ±70 cm. Tussen de westelijke kopstoel en het kookeiland blijft de hoofdroute uit de woonkamer ≥ 96 cm.</span></div>
+    <div><span class="w">!</span><span><strong>Raamkant:</strong> 73 cm tussen de tafelrand en de gevel. Dat is genoeg om te zitten, maar je kunt daar niet langs iemand heen lopen. Zit er onder het raam in de eethoek een radiator, dan komt de rugleuning van de stoel noordwest daar vlakbij. Ik kon dat niet goed zien op de foto’s.</span></div>
+    <div><span class="w">!</span><span><strong>Hanglamp:</strong> het midden van de tafel ligt ≈ 123 cm uit de gevel en ≈ 108 cm uit de lijn van de korte buitenmuur. Controleer of het plafondlichtpunt daar zit. Zo niet, gebruik dan een plafondhaak of een lamp met een verlengbare ophanging.</span></div>
+    <div><span class="w">!</span><span><strong>Onderstel:</strong> AQ-Living vermeldt niet waar de poten precies staan. Bij een centrale voet of poten ver naar binnen zitten de kopstoelen prima. Bij poten in de punten van het ovaal schuif je aan de koppen minder makkelijk aan.</span></div>
+  </div>
 </section>
 
 <section aria-labelledby="h-opts">
@@ -241,6 +261,7 @@ ol.ask{margin:0;padding-left:20px;display:grid;gap:6px}
     <li><strong>Krabpaal:</strong> voetmaat (getekend 50 × 50, max ±70 cm breed).</li>
     <li><strong>Radiator:</strong> zit er een onder het linkerdeel van het grote raam?</li>
     <li><strong>Sundvik:</strong> IKEA geeft een diepte van 54–79 cm en een hoogte van 99–108 cm. Ik heb met de maximale diepte van 79 gerekend. Gebruiken jullie hem zonder aankleedblad, controleer dan de werkelijke diepte; dat geeft alleen meer ruimte.</li>
+    <li><strong>Eethoek:</strong> zit er een radiator onder het raam in de eethoek, en waar zit het plafondlichtpunt?</li>
     <li><strong>Entreedeur:</strong> draait die de woonkamer in, en aan welke kant zit het scharnier?</li>
     <li><strong>Divan rechts:</strong> bevestiging op de orderbevestiging.</li>
     <li><strong>Kleur:</strong> een Hedeviken-front naast het Budrio-blad leggen.</li>
@@ -326,7 +347,6 @@ function drawRoom(svg,opts){
     tl(182,-34,"TUIN · groot raam ≈ 40–325",14);
     tl(430,-34,"hoekraam",14);
     tl(735,110,"tuindeuren (eethoek)",14);
-    tl(680,420,"EETHOEK",18);
     tl(360,700,"KEUKEN",18);
     tl(348,530,"kookeiland ≈",13);
     tl(330,32,"radiator ≈",12,null,"start");
@@ -350,6 +370,20 @@ function drawSofa(g,dir,x0,y0,bad){
   return f;
 }
 function rectEl(g,r,fill,stroke,extra){return el("rect",Object.assign({x:r[0],y:r[1],width:r[2]-r[0],height:r[3]-r[1],fill,stroke:stroke||"none","stroke-width":1.5},extra||{}),g);}
+const DINE={cx:565,cy:370,L:180,W:100,cw:53,cd:62};
+function diningChairs(){const D=DINE,out=[];
+  [-1,1].forEach(s=>[-45,45].forEach(o=>{const e=D.W/2*Math.sqrt(1-(o/(D.L/2))**2);const y0=D.cy+s*(e-10);const y1=y0+s*D.cd;
+    out.push({r:[D.cx+o-D.cw/2,Math.min(y0,y1),D.cx+o+D.cw/2,Math.max(y0,y1)],dir:[0,s]});}));
+  [-1,1].forEach(s=>{const x0=D.cx+s*(D.L/2-10),x1=x0+s*D.cd;out.push({r:[Math.min(x0,x1),D.cy-D.cw/2,Math.max(x0,x1),D.cy+D.cw/2],dir:[s,0]});});
+  return out;}
+function drawDining(g){const D=DINE;
+  diningChairs().forEach(c=>{const r=c.r;rectEl(g,r,css("--chair"),null,{rx:6});
+    const t=8;let b;if(c.dir[1]===-1)b=[r[0],r[1],r[2],r[1]+t];else if(c.dir[1]===1)b=[r[0],r[3]-t,r[2],r[3]];else if(c.dir[0]===-1)b=[r[0],r[1],r[0]+t,r[3]];else b=[r[2]-t,r[1],r[2],r[3]];
+    rectEl(g,b,css("--ink"),null,{"fill-opacity":.6});});
+  el("ellipse",{cx:D.cx,cy:D.cy,rx:D.L/2,ry:D.W/2,fill:css("--dine"),stroke:css("--ink"),"stroke-width":1.5},g);
+  label(g,D.cx,D.cy-4,"JAMES 180 × 100",13,css("--sheet"),700,"middle",true);
+  label(g,D.cx,D.cy+13,"6× Monaco",11,css("--sheet"),500,"middle",true);
+  label(g,705,266,"vrij voor tuindeuren",12,css("--muted"),600,"middle",true);}
 function krab(g,r){rectEl(g,r,css("--cat"),null,{"fill-opacity":.85});const cx=(r[0]+r[2])/2,cy=(r[1]+r[3])/2;el("circle",{cx,cy,r:9,fill:css("--sheet")},g);el("circle",{cx,cy,r:9,fill:"none",stroke:css("--cat"),"stroke-width":2},g);}
 function arrowDefs(svg){const d=el("defs",{},svg);
   const m=el("marker",{id:svg.id+"-ar",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto-start-reverse"},d);el("path",{d:"M0,0L10,5L0,10Z",fill:css("--route")},m);
@@ -389,9 +423,12 @@ function drawPlan(){
   label(g,184,124,"Haco Jet 325 × 174",13,css("--sofa-ink"),700,"start");
   el("line",{x1:285,y1:205,x2:395,y2:205,stroke:css("--sofa-ink"),"stroke-width":2,"marker-end":`url(#plan-ar)`,opacity:.6},g);
   // routes
-  route(g,"plan",[[96,600],[96,470],[180,430],[620,430]]);
-  route(g,"plan",[[640,340],[350,340],[350,62]]);
-  label(g,500,452,"hoofdroute ≥ 126",13,css("--route"),600);
+  drawDining(g);
+  route(g,"plan",[[96,600],[96,470],[180,435],[440,435],[492,520],[520,620]]);
+  route(g,"plan",[[350,435],[350,62]]);
+  route(g,"plan",[[492,520],[560,535],[700,447],[778,352],[772,275]]);
+  label(g,250,455,"hoofdroute ≥ 126",13,css("--route"),600);
+  label(g,610,575,"naar keuken en tuindeuren",12,css("--route"),600);
   // maten kamer
   const d=el("g",{},svg);
   dim(d,"plan",0,-80,457,-80,"457",10);
@@ -405,6 +442,9 @@ function drawPlan(){
   dim(d,"plan",105,233,150,233,"45",8);
   dim(d,"plan",272,290,415,290,"143",8);
   dim(d,"plan",300,355,300,493,"≈138",8,true);
+  dim(d,"plan",470,247,470,325,"73",-6);
+  dim(d,"plan",733,396,790,453,"80",0);
+  dim(d,"plan",520,488,490,553,"91",0);
   dim(d,"plan",194,355,194,481,"126",8);
   dim(d,"plan",136,505,155,505,"19",0,true);
   dim(d,"plan",233,505,254,505,"21",0,true);
@@ -524,6 +564,15 @@ function build3D(){
     const cx=(P[0][0]+P[1][0]+P[2][0])/3,cz=(P[0][1]+P[1][1]+P[2][1])/3;
     P.forEach(p=>{const lx=cx+(p[0]-cx)*0.62,lz=cz+(p[1]-cz)*0.62;box(2.5,h-3,2.5,lx,(h-3)/2,lz,mats.leg);});};
   tableMesh(F.big,39);tableMesh(F.small,44);
+  // eettafel James + 6 Monaco
+  {const D=DINE;const top=new THREE.Mesh(new THREE.CylinderGeometry(1,1,6,64),M(0x5a3a22,0.7));top.scale.set(D.L/2,1,D.W/2);top.position.set(D.cx,73,D.cy);top.castShadow=true;top.receiveShadow=true;scene.add(top);
+   [-1,1].forEach(s=>{[-1,1].forEach(t=>box(4,70,4,D.cx+s*55,35,D.cy+t*30,mats.leg));box(4,4,64,D.cx+s*55,2,D.cy,mats.leg);box(4,4,64,D.cx+s*55,68,D.cy,mats.leg);});
+   const seat=M(0x3f4447,0.8);
+   diningChairs().forEach(c=>{const r=c.r,cx=(r[0]+r[2])/2,cz=(r[1]+r[3])/2,w=r[2]-r[0],d=r[3]-r[1];
+     box(w-6,8,d-14,cx,46,cz,seat);
+     const bx=c.dir[0]?cx+c.dir[0]*(w/2-4):cx,bz=c.dir[1]?cz+c.dir[1]*(d/2-4):cz;
+     box(c.dir[0]?5:w-6,40,c.dir[1]?5:d-6,bx,48+22,bz,seat);
+     [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b])=>box(2,42,2,cx+a*(w/2-6),21,cz+b*(d/2-8),mats.leg));});}
   // Sundvik (wit): kast + bovenblad
   const Su=F.sund,sw=Su[2]-Su[0],sx=(Su[0]+Su[2])/2;const white=M(0xf7f7f5,0.6);
   box(sw,90,54,sx,45,Su[3]-27,white);box(sw,4,Su[3]-Su[1],sx,97,(Su[1]+Su[3])/2,white);
@@ -550,7 +599,7 @@ function build3D(){
   const labels=[];
   const mkLabel=(txt,x,y,z)=>{const c=document.createElement("canvas");c.width=512;c.height=96;const g=c.getContext("2d");g.fillStyle="rgba(31,42,46,.86)";g.fillRect(0,0,512,96);g.fillStyle="#fff";g.font="600 44px Public Sans, system-ui, sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText(txt,256,50);
     const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(80,15,1);sp.position.set(x,y,z);sp.renderOrder=10;scene.add(sp);labels.push(sp);};
-  mkLabel("Haco Jet",60,115,270);mkLabel("Divan",110,80,90);mkLabel("Bestå-dressoir",21,110,490);mkLabel("Krabpaal",25,185,390);mkLabel("Bestå zwevend + tv 65″",430,185,146);mkLabel("Budrio",200,70,250);mkLabel("Sundvik",194,135,520);
+  mkLabel("Haco Jet",60,115,270);mkLabel("Divan",110,80,90);mkLabel("Bestå-dressoir",21,110,490);mkLabel("Krabpaal",25,185,390);mkLabel("Bestå zwevend + tv 65″",430,185,146);mkLabel("Budrio",200,70,250);mkLabel("Sundvik",194,135,520);mkLabel("Eettafel James",565,120,370);
   // licht
   scene.add(new THREE.HemisphereLight(0xffffff,0xb9a789,0.75));
   const sun=new THREE.DirectionalLight(0xfff3e0,0.75);sun.position.set(250,520,-700);sun.target.position.set(260,0,280);scene.add(sun.target);
@@ -562,6 +611,7 @@ function build3D(){
     eet:{pos:[740,165,455],tgt:[120,60,220]},
     entree:{pos:[150,165,548],tgt:[200,70,120]},
     bank:{pos:[70,112,240],tgt:[457,105,150]},
+    eetk:{pos:[540,195,625],tgt:[560,45,300]},
     top:{pos:[300,1050,420],tgt:[300,0,330]}};
   function setView(v){const p=views[v].pos,t=views[v].tgt;st.tx=t[0];st.ty=t[1];st.tz=t[2];const dx=p[0]-t[0],dy=p[1]-t[1],dz=p[2]-t[2];st.r=Math.hypot(dx,dy,dz);st.ph=Math.acos(dy/st.r);st.th=Math.atan2(dx,dz);apply();}
   function apply(){st.ph=Math.max(0.05,Math.min(1.53,st.ph));st.r=Math.max(120,Math.min(1600,st.r));
@@ -574,7 +624,7 @@ function build3D(){
   const end=()=>{drag=null;canvas.style.cursor="grab";};canvas.addEventListener("pointerup",end);canvas.addEventListener("pointercancel",end);
   canvas.addEventListener("wheel",e=>{e.preventDefault();st.r*=Math.exp(e.deltaY*0.001);apply();},{passive:false});
   new ResizeObserver(size).observe(canvas);
-  const btn={eet:"v-eet",entree:"v-entree",bank:"v-bank",top:"v-top"};
+  const btn={eet:"v-eet",entree:"v-entree",bank:"v-bank",eetk:"v-eetk",top:"v-top"};
   Object.entries(btn).forEach(([k,id])=>document.getElementById(id).addEventListener("click",()=>{Object.values(btn).forEach(j=>document.getElementById(j).setAttribute("aria-pressed",j===id?"true":"false"));setView(k);}));
   const lb=document.getElementById("v-labels");lb.addEventListener("click",()=>{const on=lb.getAttribute("aria-pressed")!=="true";lb.setAttribute("aria-pressed",on);labels.forEach(l=>l.visible=on);render();});
   size();setView("eet");
